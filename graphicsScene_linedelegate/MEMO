@@ -1,0 +1,5 @@
+diagramscene.py*       shape add move
+
+resizableItem.py       rect move & resize
+
+resizableWidget3.py    table move & resize
