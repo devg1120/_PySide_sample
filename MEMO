@@ -1,0 +1,13 @@
+
+graphicsview/diagramscene
+   python3 diagramscene.py
+      - original imp
+
+
+graphicsScene_linedelegate
+   python3 resizableWidget3.py
+      - table on graphicview 
+      - table resize + drag
+   python3 diagramscene.py
+      - on table
+      - rect resize drag
