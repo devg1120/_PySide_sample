@@ -1,4 +1,9 @@
 
+
+diagramscene/class_ide
+   python3 main.py
+
+
 graphicsview/diagramscene
    python3 diagramscene.py
       - original imp
