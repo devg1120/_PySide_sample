@@ -4,7 +4,7 @@ from PySide6 import QtCore, QtGui, QtWidgets
 
 from diagramItem import DiagramItem
 from diagramScene import DiagramScene
-from resizableItem import ResizableRectItem
+from resizableRectItem import ResizableRectItem
 
 import diagramscene_rc
 
@@ -104,7 +104,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         print("TextButton:",self.InsertTextButton, id)
         #if cbutton == self.InsertTextButton:
-        if id == 4:                                              # GUSA GS
+        if id == 5:                                              # GUSA GS
             print("InsertText")
             self.scene.setMode(DiagramScene.InsertText)
         else:
@@ -161,7 +161,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def itemInserted(self, item):
         self.pointerTypeGroup.button(DiagramScene.MoveItem).setChecked(True)
         self.scene.setMode(self.pointerTypeGroup.checkedId())
-        self.buttonGroup.button(item.diagramType).setChecked(False)
+        #GUSA self.buttonGroup.button(item.diagramType).setChecked(False)
 
     def textInserted(self, item):
         self.buttonGroup.button(self.InsertTextButton).setChecked(False)
@@ -240,14 +240,16 @@ class MainWindow(QtWidgets.QMainWindow):
         self.buttonGroup.setExclusive(False)
         #self.buttonGroup.buttonClicked[int].connect(self.buttonGroupClicked)
         self.buttonGroup.buttonClicked.connect(self.buttonGroupClicked)
-
+  
         layout = QtWidgets.QGridLayout()
         layout.addWidget(self.createCellWidget("Conditional", DiagramItem.Conditional),
                 0, 0)
-        layout.addWidget(self.createCellWidget("Process", DiagramItem.Step), 0,
-                1)
+        layout.addWidget(self.createCellWidget("Process", DiagramItem.Step),
+                0, 1)
         layout.addWidget(self.createCellWidget("Input/Output", DiagramItem.Io),
                 1, 0)
+        layout.addWidget(self.createCellWidget("Ellipse", DiagramItem.Ellipse),
+                1, 1)
 
         textButton = QtWidgets.QToolButton()
         textButton.setCheckable(True)
@@ -262,7 +264,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 QtCore.Qt.AlignCenter)
         textWidget = QtWidgets.QWidget()
         textWidget.setLayout(textLayout)
-        layout.addWidget(textWidget, 1, 1)
+        layout.addWidget(textWidget, 2, 1)
 
         layout.setRowStretch(3, 10)
         layout.setColumnStretch(2, 10)

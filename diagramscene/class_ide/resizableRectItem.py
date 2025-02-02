@@ -6,8 +6,7 @@ from PySide6.QtWidgets import QGraphicsRectItem, QApplication, QMainWindow,  QGr
 
 
 #class GraphicsRectItem(QGraphicsRectItem):
-#class GraphicsRectItem(QGraphicsItem):
-class ResizableItem(QGraphicsItem):
+class ResizableRectItem(QGraphicsRectItem):
 
     handleTopLeft = 1
     handleTopMiddle = 2
@@ -36,7 +35,7 @@ class ResizableItem(QGraphicsItem):
         """
         Initialize the shape.
         """
-        #super().__init__(*args)
+        super().__init__(*args)
         self.handles = {}
         self.handleSelected = None
         self.mousePressPos = None
