@@ -19,7 +19,7 @@ from PySide6.QtWidgets import QGraphicsRectItem, QApplication, QMainWindow,  QGr
 
 
 class DiagramItem(QtWidgets.QGraphicsPolygonItem):
-    Step, Conditional, StartEnd, Io , Ellipse = range(5)
+    Step, Conditional, StartEnd, Io , Ellipse , Hexagon = range(6)
 
 
     handleTopLeft = 1
@@ -406,33 +406,15 @@ class DiagramItem(QtWidgets.QGraphicsPolygonItem):
                     QtCore.QPointF(self._x                    , self._y), 
 
                     ])
+        
 
         elif self.diagramType == self.Ellipse:
-            #print("Ellipse")
-
-            g = 12
-            path.moveTo(self._x + g               , self._y )
-            path.lineTo(self._x + self._width - g , self._y )
-            #path.lineTo(self._x + self._width     , self._y  + g )
-
-            path.arcTo(self._x + self._width - g   , self._y ,
-                       self._x + self._width - g/2 , self._y  + g/2 ,
-                       self._x + self._width       , self._y  + g )
-
-
-            path.lineTo(self._x + self._width     , self._y  + self._height - g)
-            #path.lineTo(self._x + self._width - g , self._y  + self._height)
-
-            path.lineTo(self._x + g               , self._y  + self._height)
-            path.lineTo(self._x                   , self._y  + self._height - g)
-
-            path.lineTo(self._x                   , self._y  + g )
-            path.lineTo(self._x + g               , self._y )
-
+            boundingRectangle = QRectF(self._x, self._y, self._width, self._height)
+            path.addEllipse(boundingRectangle)
             myPolygon = path.toFillPolygon()
 
+        elif self.diagramType == self.Hexagon:
 
-        elif self.diagramType == self.Ellipse:
             #print("Ellipse")
             g = 12
             path.moveTo(self._x + g               , self._y )

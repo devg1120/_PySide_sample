@@ -28,8 +28,8 @@ class DiagramScene(QtWidgets.QGraphicsScene):
         self.line = None
         self.textItem = None
         self.myItemColor = QtCore.Qt.white
-        self.myTextColor = QtCore.Qt.black
-        self.myLineColor = QtCore.Qt.black
+        self.myTextColor = QtCore.Qt.white
+        self.myLineColor = QtCore.Qt.white
         self.myFont = QtGui.QFont()
 
     def setLineColor(self, color):

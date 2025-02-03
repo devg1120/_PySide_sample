@@ -9,7 +9,7 @@ from resizableRectItem import ResizableRectItem
 import diagramscene_rc
 
 class MainWindow(QtWidgets.QMainWindow):
-    InsertTextButton = 10
+    InsertTextButton = 6
 
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -175,9 +175,13 @@ class MainWindow(QtWidgets.QMainWindow):
             else:
                 button.setChecked(False)
 
-        print("TextButton:",self.InsertTextButton, id)
+        #print("TextButton:",self.InsertTextButton, id)
         #if cbutton == self.InsertTextButton:
-        if id == 5:                                              # GUSA GS
+        #print("id", id)
+        #print("cbutton", type(cbutton))
+
+        #if id == 6:                                              # GUSA GS
+        if id == self.InsertTextButton:
             print("InsertText")
             self.scene.setMode(DiagramScene.InsertText)
         else:
@@ -323,6 +327,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 1, 0)
         layout.addWidget(self.createCellWidget("Ellipse", DiagramItem.Ellipse),
                 1, 1)
+        layout.addWidget(self.createCellWidget("Hexagon", DiagramItem.Hexagon),
+                2, 0)
 
         textButton = QtWidgets.QToolButton()
         textButton.setCheckable(True)
