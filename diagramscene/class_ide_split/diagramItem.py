@@ -18,7 +18,6 @@ from PySide6.QtWidgets import QGraphicsRectItem, QApplication, QMainWindow,  QGr
 #from resizableItem2 import ResizableRectItem
 
 
-#class DiagramItem(QtWidgets.QGraphicsPolygonItem, ResizableItem):
 class DiagramItem(QtWidgets.QGraphicsPolygonItem):
     Step, Conditional, StartEnd, Io , Ellipse = range(5)
 
@@ -69,7 +68,7 @@ class DiagramItem(QtWidgets.QGraphicsPolygonItem):
         self.setFlag(QGraphicsItem.ItemSendsGeometryChanges, True)
         self.setFlag(QGraphicsItem.ItemIsFocusable, True)
 
-        self.updateHandlesPos()
+        #self.updateHandlesPos()
 
         """
         path = QtGui.QPainterPath()
@@ -157,7 +156,7 @@ class DiagramItem(QtWidgets.QGraphicsPolygonItem):
 
     def contextMenuEvent(self, event):
         self.scene().clearSelection()
-        self.setSelected(True)
+        self.setSelected(False)
         self.myContextMenu.exec_(event.screenPos())
 
     def itemChange(self, change, value):
@@ -187,6 +186,8 @@ class DiagramItem(QtWidgets.QGraphicsPolygonItem):
         super().hoverLeaveEvent(moveEvent)
 
     def mousePressEvent(self, mouseEvent):
+        #self.setSelected(True)
+        self.updateHandlesPos()
         self.handleSelected = self.handleAt(mouseEvent.pos())
         #self.handleSelected = None
         if self.handleSelected:
@@ -221,6 +222,8 @@ class DiagramItem(QtWidgets.QGraphicsPolygonItem):
         self._height = rect.height()
 
     def updateHandlesPos(self):
+        if not self.isSelected():
+            return
         s = self.handleSize
         b = self.boundingRect()
         self.handles[self.handleTopLeft] = QRectF(b.left(), b.top(), s, s)
@@ -344,13 +347,9 @@ class DiagramItem(QtWidgets.QGraphicsPolygonItem):
         """
         super(DiagramItem, self).paint(painter, option, widget)
 
-        #painter.setBrush(QBrush(QColor(255, 0, 0, 100)))
-        #painter.setPen(QPen(QColor(0, 0, 0), 1.0, Qt.SolidLine))
-        #painter.drawRect(self.rect())
-
+        if not self.isSelected():
+            return
         painter.setRenderHint(QPainter.Antialiasing)
-        #painter.setBrush(QBrush(QColor(255, 0, 0, 255)))
-        #painter.setPen(QPen(QColor(0, 0, 0, 255), 1.0, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
         painter.setBrush(QBrush(QColor(51, 153, 255, 255)))
         painter.setPen(QPen(QColor(51,153,255, 255), 1.0, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
         for handle, rect in self.handles.items():
