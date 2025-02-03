@@ -251,11 +251,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.handleFontChange()
 
     def sceneScaleChanged(self, scale):
-        newScale = int(scale[:-1]) / 100.0
-        oldMatrix = self.view.matrix()
-        self.view.resetMatrix()
-        self.view.translate(oldMatrix.dx(), oldMatrix.dy())
-        self.view.scale(newScale, newScale)
+        print(type(scale))
+        print(scale)
+        #newScale = int(scale[:-1]) / 100.0
+        scale_p = self.scale_list[scale]
+        newScale = int(scale_p[:-1]) / 100.0
+        #oldMatrix = self.view1.matrix()
+        #self.view1.resetMatrix()
+        #self.view1.translate(oldMatrix.dx(), oldMatrix.dy())
+        self.view1.scale(newScale, newScale)
 
     def textColorChanged(self):
         self.textAction = self.sender()
@@ -448,7 +452,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.textAction = self.fontColorToolButton.menu().defaultAction()
         self.fontColorToolButton.setIcon(
                 self.createColorToolButtonIcon(':/images/textpointer.png',
-                        QtCore.Qt.black))
+                        QtCore.Qt.white))
         self.fontColorToolButton.setAutoFillBackground(True)
         self.fontColorToolButton.clicked.connect(self.textButtonTriggered)
 
@@ -465,11 +469,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.lineColorToolButton = QtWidgets.QToolButton()
         self.lineColorToolButton.setPopupMode(QtWidgets.QToolButton.MenuButtonPopup)
         self.lineColorToolButton.setMenu(
-                self.createColorMenu(self.lineColorChanged, QtCore.Qt.black))
+                self.createColorMenu(self.lineColorChanged, QtCore.Qt.white))
         self.lineAction = self.lineColorToolButton.menu().defaultAction()
         self.lineColorToolButton.setIcon(
                 self.createColorToolButtonIcon(':/images/linecolor.png',
-                        QtCore.Qt.black))
+                        QtCore.Qt.white))
         self.lineColorToolButton.clicked.connect(self.lineButtonTriggered)
 
         self.textToolBar = self.addToolBar("Font")
@@ -500,7 +504,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pointerTypeGroup.buttonClicked.connect(self.pointerGroupClicked)
 
         self.sceneScaleCombo = QtWidgets.QComboBox()
-        self.sceneScaleCombo.addItems(["50%", "75%", "100%", "125%", "150%"])
+        #self.sceneScaleCombo.addItems(["50%", "75%", "100%", "125%", "150%"])
+        self.scale_list = ["50%", "75%", "100%", "125%", "150%"]
+        self.sceneScaleCombo.addItems(self.scale_list)
         self.sceneScaleCombo.setCurrentIndex(2)
         #self.sceneScaleCombo.currentIndexChanged[str].connect(self.sceneScaleChanged)
         self.sceneScaleCombo.currentIndexChanged.connect(self.sceneScaleChanged)
