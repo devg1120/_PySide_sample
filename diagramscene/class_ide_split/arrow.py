@@ -14,7 +14,7 @@ class Arrow(QtWidgets.QGraphicsLineItem):
         self.myStartItem = startItem
         self.myEndItem = endItem
         self.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, True)
-        self.myColor = QtCore.Qt.black
+        self.myColor = QtCore.Qt.white
         self.setPen(QtGui.QPen(self.myColor, 2, QtCore.Qt.SolidLine,
                 QtCore.Qt.RoundCap, QtCore.Qt.RoundJoin))
 
@@ -39,9 +39,13 @@ class Arrow(QtWidgets.QGraphicsLineItem):
         return path
 
     def updatePosition(self):
-        line = QtCore.QLineF(self.mapFromItem(self.myStartItem, 0, 0), self.mapFromItem(self.myEndItem, 0, 0))
+        print("arrow updatePosition")
+        #line = QtCore.QLineF(self.mapFromItem(self.myStartItem, 0, 0), self.mapFromItem(self.myEndItem, 0, 0))
+        line = QtCore.QLineF(self.mapFromItem(self.myStartItem, self.myStartItem._x, self.myStartItem._y), 
+                                              self.mapFromItem(self.myEndItem, self.myEndItem._x, self.myEndItem._y)
+                                              )
         self.setLine(line)
-
+    """
     def paint(self, painter, option, widget=None):
         if (self.myStartItem.collidesWithItem(self.myEndItem)):
             return
@@ -96,3 +100,4 @@ class Arrow(QtWidgets.QGraphicsLineItem):
             painter.drawLine(myLine)
 
 
+    """
