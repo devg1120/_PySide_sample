@@ -496,10 +496,17 @@ class MainWindow(QtWidgets.QMainWindow):
         linePointerButton.setCheckable(True)
         linePointerButton.setIcon(QtGui.QIcon(':/images/linepointer.png'))
 
+        connectorPointerButton = QtWidgets.QToolButton()
+        connectorPointerButton.setCheckable(True)
+        connectorPointerButton.setIcon(QtGui.QIcon(':/images/linepointer.png'))
+
         self.pointerTypeGroup = QtWidgets.QButtonGroup()
         self.pointerTypeGroup.addButton(pointerButton, DiagramScene.MoveItem)
         self.pointerTypeGroup.addButton(linePointerButton,
                 DiagramScene.InsertLine)
+        self.pointerTypeGroup.addButton(connectorPointerButton,
+                DiagramScene.InsertConnector)
+
         #self.pointerTypeGroup.buttonClicked[int].connect(self.pointerGroupClicked)
         self.pointerTypeGroup.buttonClicked.connect(self.pointerGroupClicked)
 
@@ -514,6 +521,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.pointerToolbar = self.addToolBar("Pointer type")
         self.pointerToolbar.addWidget(pointerButton)
         self.pointerToolbar.addWidget(linePointerButton)
+        self.pointerToolbar.addWidget(connectorPointerButton)
         self.pointerToolbar.addWidget(self.sceneScaleCombo)
 
     def createBackgroundCellWidget(self, text, image):

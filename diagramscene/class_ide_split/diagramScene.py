@@ -5,13 +5,15 @@
 from PySide6 import QtCore, QtGui, QtWidgets
 
 from arrow  import Arrow
+from connector  import Connector
 from diagramTextItem import DiagramTextItem
 from diagramItem import DiagramItem
 
 
 
 class DiagramScene(QtWidgets.QGraphicsScene):
-    InsertItem, InsertLine, InsertText, MoveItem  = range(4)
+    #InsertItem, InsertLinroveItem  = range(4)
+    InsertItem, InsertLine, InsertConnector, InsertText, MoveItem  = range(5)
 
     itemInserted = QtCore.Signal(DiagramItem)
 
@@ -87,6 +89,13 @@ class DiagramScene(QtWidgets.QGraphicsScene):
                                         mouseEvent.scenePos()))
             self.line.setPen(QtGui.QPen(self.myLineColor, 2))
             self.addItem(self.line)
+        elif self.myMode == self.InsertConnector:
+            print("InsertConnector")
+            self.line = QtWidgets.QGraphicsLineItem(QtCore.QLineF(mouseEvent.scenePos(),
+                                        mouseEvent.scenePos()))
+            self.line.setPen(QtGui.QPen(self.myLineColor, 2))
+            self.addItem(self.line)
+            pass
         elif self.myMode == self.InsertText:
             textItem = DiagramTextItem()
             textItem.setFont(self.myFont)
@@ -103,6 +112,9 @@ class DiagramScene(QtWidgets.QGraphicsScene):
 
     def mouseMoveEvent(self, mouseEvent):
         if self.myMode == self.InsertLine and self.line:
+            newLine = QtCore.QLineF(self.line.line().p1(), mouseEvent.scenePos())
+            self.line.setLine(newLine)
+        elif self.myMode == self.InsertConnector and self.line:
             newLine = QtCore.QLineF(self.line.line().p1(), mouseEvent.scenePos())
             self.line.setLine(newLine)
         elif self.myMode == self.MoveItem:
@@ -133,6 +145,31 @@ class DiagramScene(QtWidgets.QGraphicsScene):
                 arrow.setZValue(-1000.0)
                 self.addItem(arrow)
                 arrow.updatePosition()
+
+        elif self.line and self.myMode == self.InsertConnector:
+            startItems = self.items(self.line.line().p1())
+            if len(startItems) and startItems[0] == self.line:
+                startItems.pop(0)
+            endItems = self.items(self.line.line().p2())
+            if len(endItems) and endItems[0] == self.line:
+                endItems.pop(0)
+
+            self.removeItem(self.line)
+            self.line = None
+
+            if len(startItems) and len(endItems) and \
+                    isinstance(startItems[0], DiagramItem) and \
+                    isinstance(endItems[0], DiagramItem) and \
+                    startItems[0] != endItems[0]:
+                startItem = startItems[0]
+                endItem = endItems[0]
+                connector = Connector(startItem, endItem)
+                connector.setColor(self.myLineColor)
+                startItem.addArrow(connector)
+                endItem.addArrow(connector)
+                connector.setZValue(-1000.0)
+                self.addItem(connector)
+                connector.updatePosition()
 
         self.line = None
         super(DiagramScene, self).mouseReleaseEvent(mouseEvent)
