@@ -7,9 +7,6 @@ from PySide6 import QtCore, QtGui, QtWidgets
 class ConnectorContactSurface:
     Top, TopRight, Right, BottomRight, Bottom, BottomLeft, Left, TopLeft = range(8)
 
-class ConnectorPainterPathOrder:
-    MoveTo, LineTo, ArcTo, AddText = range(4)
-
 class Connector(QtWidgets.QGraphicsPathItem):
     def __init__(self, startItem, endItem, parent=None, scene=None):
         super(Connector, self).__init__(parent, scene)
@@ -139,8 +136,7 @@ class Connector(QtWidgets.QGraphicsPathItem):
             i_points = self.intersectItemPoints(self.myStartItem.myPolygon,line)
             if  len(i_points) == 0:
                 return
-            #points.append(QtCore.QPointF(sx + i_points[0].x(), sy + i_points[0].y()))
-            points.append((ConnectorPainterPathOrder.MoveTo, (QtCore.QPointF(sx + i_points[0].x(), sy + i_points[0].y()))))
+            points.append(QtCore.QPointF(sx + i_points[0].x(), sy + i_points[0].y()))
 
         elif Start_suf == ConnectorContactSurface.BottomRight:
             pass
@@ -153,53 +149,17 @@ class Connector(QtWidgets.QGraphicsPathItem):
         elif Start_suf == ConnectorContactSurface.TopLeft:
             pass
 
-        if False:
-            # Right Angle  直角
-            mx = (ex -(sx + sw))/2
-            points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + mx , sy + sh*Start_pos_ratio )))
-            points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + mx , ey + eh*End_pos_ratio   )))
+        # Right Angle  直角
+        #mx = (ex -(sx + sw))/2
+        #points.append(QtCore.QPointF( sx + sw  + mx , sy + sh*Start_pos_ratio ))
+        #points.append(QtCore.QPointF( sx + sw  + mx , ey + eh*End_pos_ratio   ))
 
-        if False:
-            # Right Angle  直角 斜角
-            mx = (ex -(sx + sw))/2
-            points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + mx  -10 , sy + sh*Start_pos_ratio )))
-            points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + mx , sy + sh*Start_pos_ratio  +10 )))
-            points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + mx , ey + sh*Start_pos_ratio   -10)))
-            points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + mx + 10 , ey + eh*End_pos_ratio   )))
+        # Slant 傾斜
+        top = 15
+        points.append(QtCore.QPointF( sx + sw  + top , sy + sh*Start_pos_ratio ))
+        points.append(QtCore.QPointF( ex       - top , ey + eh*End_pos_ratio   ))
 
-        if False:
-            # Right Angle  直角 丸角
-            mx = (ex -(sx + sw))/2
-            g = 20
-            points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + mx  -g , sy + sh*Start_pos_ratio )))
-
-            points.append((ConnectorPainterPathOrder.MoveTo, QtCore.QPointF(sx + sw  + mx  , sy + sh*Start_pos_ratio + g )))
-            points.append((ConnectorPainterPathOrder.ArcTo, sx + sw  + mx  -g*2 , sy + sh*Start_pos_ratio ,g*2,g*2,0,90))
-
-            points.append((ConnectorPainterPathOrder.MoveTo,QtCore.QPointF( sx + sw  + mx , sy + sh*Start_pos_ratio  +g )))
-            points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + mx , ey + sh*Start_pos_ratio   -g)))
-
-            points.append((ConnectorPainterPathOrder.MoveTo, QtCore.QPointF(sx + sw  + mx  , ey + eh*Start_pos_ratio - g*2 )))
-            points.append((ConnectorPainterPathOrder.ArcTo, sx + sw  + mx   , ey + eh*Start_pos_ratio -g*2 ,g*2,g*2,180,90))
-
-            points.append((ConnectorPainterPathOrder.MoveTo,QtCore.QPointF( sx + sw  + mx + g , ey + eh*End_pos_ratio   )))
-
-            timesFont = QtGui.QFont("Times", 12);
-            timesFont.setStyleStrategy(QtGui.QFont.ForceOutline);
-            points.append((ConnectorPainterPathOrder.MoveTo,QtCore.QPointF( 50,50 )))
-            points.append((ConnectorPainterPathOrder.AddText, 250, 50, timesFont, "QtText"  ))
-
-            poiints.append((ConnectorPainterPathOrder.MoveTo,QtCore.QPointF( sx + sw  + mx + g , ey + eh*End_pos_ratio   )))
-
-        if True:
-            # Slant 傾斜
-            top = 15
-            points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + top , sy + sh*Start_pos_ratio )))
-            points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( ex       - top , ey + eh*End_pos_ratio   )))
-
-        if False:
-            # Curve カーブ
-            pass
+        # Curve カーブ
 
         if   End_suf == ConnectorContactSurface.Top:
             pass
@@ -215,7 +175,7 @@ class Connector(QtWidgets.QGraphicsPathItem):
             pass
         elif End_suf == ConnectorContactSurface.Left:
             pass
-            #points.append(QtCore.QPointF(ex , ey + eh*End_pos_ratio))
+            points.append(QtCore.QPointF(ex , ey + eh*End_pos_ratio))
             
             line = QtCore.QLineF(
                                  QtCore.QPointF(0     ,   eh*End_pos_ratio),
@@ -223,56 +183,19 @@ class Connector(QtWidgets.QGraphicsPathItem):
             i_points = self.intersectItemPoints(self.myEndItem.myPolygon,line)
             if  len(i_points) == 0:
                 return
-            #points.append(QtCore.QPointF(ex + i_points[0].x(), ey + i_points[0].y()))
-            points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF(ex + i_points[0].x(), ey + i_points[0].y())))
+            points.append(QtCore.QPointF(ex + i_points[0].x(), ey + i_points[0].y()))
 
         elif End_suf == ConnectorContactSurface.TopLeft:
             pass
 
 
         path = QtGui.QPainterPath()
-        #path.moveTo( points[0])
-        #for point in points[1:]:
-        #    path.lineTo( point )
-
-        for order in points:
-            #print("#",order)
-            if order[0] == ConnectorPainterPathOrder.MoveTo:
-                path.moveTo( order[1])
-            elif order[0] == ConnectorPainterPathOrder.LineTo:
-                path.lineTo( order[1])
-            elif order[0] == ConnectorPainterPathOrder.ArcTo:
-                #print(order[1])
-                #print(order[2])
-                #print(order[3])
-                #print(order[4])
-                #print(order[5])
-                #print(order[6])
-                x = order[1]
-                y = order[2]
-                w = order[3]
-                h = order[4]
-                sa = order[5]
-                sl = order[6]
-                #path.arcTo( order[1], order[2],order[3].order[4],order[5], order[6])
-                path.arcTo( x, y, w, h, sa, sl)
-                pass
-            elif order[0] == ConnectorPainterPathOrder.AddText:
-                x = order[1]
-                y = order[2]
-                font = order[3]
-                text = order[4]
-                path.addText( x, y, font, text)
-                pass
-
-        #path.closeSubpath()
+        path.moveTo( points[0])
+        for point in points[1:]:
+            path.lineTo( point )
 
         intersectPoints = self.intersectConnectors(path)
-        if len(intersectPoints) > 0:
-            #print(intersectPoints)
-            s =20
-            path.moveTo( intersectPoints[0][0].x()+s/2, intersectPoints[0][0].y())
-            path.arcTo(  intersectPoints[0][0].x()-s/2, intersectPoints[0][0].y()-s/2, s,s,0, 360)
+        print(intersectPoints)
 
         self.setPath(path)
 

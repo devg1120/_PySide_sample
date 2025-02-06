@@ -90,7 +90,7 @@ class DiagramScene(QtWidgets.QGraphicsScene):
             self.line.setPen(QtGui.QPen(self.myLineColor, 2))
             self.addItem(self.line)
         elif self.myMode == self.InsertConnector:
-            print("InsertConnector")
+            #print("InsertConnector")
             self.line = QtWidgets.QGraphicsLineItem(QtCore.QLineF(mouseEvent.scenePos(),
                                         mouseEvent.scenePos()))
             self.line.setPen(QtGui.QPen(self.myLineColor, 2))
@@ -163,7 +163,7 @@ class DiagramScene(QtWidgets.QGraphicsScene):
                     startItems[0] != endItems[0]:
                 startItem = startItems[0]
                 endItem = endItems[0]
-                connector = Connector(startItem, endItem)
+                connector = Connector(startItem, endItem, scene = self)
                 connector.setColor(self.myLineColor)
                 startItem.addArrow(connector)
                 endItem.addArrow(connector)
