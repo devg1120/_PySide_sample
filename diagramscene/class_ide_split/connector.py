@@ -4,11 +4,19 @@ import math
 
 from PySide6 import QtCore, QtGui, QtWidgets
 
+class ConnectorType:
+       RightConnect, \
+       RightConnect_SlantAngle, \
+       RightConnect_RoundAngle, \
+       SlantConnect, \
+       CurveConnect \
+       = range(5)
+
 class ConnectorContactSurface:
     Top, TopRight, Right, BottomRight, Bottom, BottomLeft, Left, TopLeft = range(8)
 
 class ConnectorPainterPathOrder:
-    MoveTo, LineTo, ArcTo, AddText = range(4)
+    MoveTo, LineTo, ArcTo, CubicTo, AddText = range(5)
 
 class Connector(QtWidgets.QGraphicsPathItem):
     def __init__(self, startItem, endItem, parent=None, scene=None):
@@ -109,6 +117,11 @@ class Connector(QtWidgets.QGraphicsPathItem):
         return intersectPoints 
 
     def updatePosition(self):
+        #Connector_type = ConnectorType.RightConnect
+        #Connector_type = ConnectorType.RightConnect_SlantAngle
+        #Connector_type = ConnectorType.RightConnect_RoundAngle
+        #Connector_type = ConnectorType.SlantConnect
+        Connector_type = ConnectorType.CurveConnect
 
         Start_suf = ConnectorContactSurface.Right
         End_suf   = ConnectorContactSurface.Left
@@ -155,22 +168,25 @@ class Connector(QtWidgets.QGraphicsPathItem):
         elif Start_suf == ConnectorContactSurface.TopLeft:
             pass
 
-        if True:
-            # Right Angle  直角
+        if Connector_type == ConnectorType.RightConnect :
+        #if False:
+            # RightConnect  直角
             mx = (ex -(sx + sw))/2
             points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + mx , sy + sh*Start_pos_ratio )))
             points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + mx , ey + eh*End_pos_ratio   )))
 
-        if False:
-            # Right Angle  直角 斜角
+        if Connector_type == ConnectorType.RightConnect_SlantAngle :
+        #if False:
+            # RightConnect_SlantAngle   斜角
             mx = (ex -(sx + sw))/2
             points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + mx  -10 , sy + sh*Start_pos_ratio )))
             points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + mx , sy + sh*Start_pos_ratio  +10 )))
             points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + mx , ey + sh*Start_pos_ratio   -10)))
             points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + mx + 10 , ey + eh*End_pos_ratio   )))
 
-        if False:
-            # Right Angle  直角 丸角
+        if Connector_type == ConnectorType.RightConnect_RoundAngle :
+        #if False:
+            # RightConnect_RoundAngle  丸角
             mx = (ex -(sx + sw))/2
             g = 20
             points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + mx  -g , sy + sh*Start_pos_ratio )))
@@ -191,16 +207,22 @@ class Connector(QtWidgets.QGraphicsPathItem):
             points.append((ConnectorPainterPathOrder.MoveTo,QtCore.QPointF( 50,50 )))
             points.append((ConnectorPainterPathOrder.AddText, 250, 50, timesFont, "QtText"  ))
 
-            poiints.append((ConnectorPainterPathOrder.MoveTo,QtCore.QPointF( sx + sw  + mx + g , ey + eh*End_pos_ratio   )))
+            points.append((ConnectorPainterPathOrder.MoveTo,QtCore.QPointF( sx + sw  + mx + g , ey + eh*End_pos_ratio   )))
 
-        if False:
-            # Slant 傾斜
+        if Connector_type == ConnectorType.SlantConnect :
+        #if True:
+            # SlantConnect 傾斜
             top = 15
             points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + top , sy + sh*Start_pos_ratio )))
             points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( ex       - top , ey + eh*End_pos_ratio   )))
 
-        if False:
+        if Connector_type == ConnectorType.CurveConnect :
+        #if False:
             # Curve カーブ
+            mx = sx + (ex - (sx + sw))/2
+            #my = ((ey + eh) - sy)/2
+            my = sy + (ey - (sy  +sh))/2
+            points.append((ConnectorPainterPathOrder.CubicTo, sx + sw  , sy + sh*Start_pos_ratio , mx, my     , ex   , ey + eh*Start_pos_ratio))
             pass
 
         if   End_suf == ConnectorContactSurface.Top:
@@ -258,6 +280,21 @@ class Connector(QtWidgets.QGraphicsPathItem):
                 sl = order[6]
                 #path.arcTo( order[1], order[2],order[3].order[4],order[5], order[6])
                 path.arcTo( x, y, w, h, sa, sl)
+                pass
+            elif order[0] == ConnectorPainterPathOrder.CubicTo:
+                #print(order[1])
+                #print(order[2])
+                #print(order[3])
+                #print(order[4])
+                #print(order[5])
+                #print(order[6])
+                sx = order[1]
+                sy = order[2]
+                mx = order[3]
+                my = order[4]
+                ex = order[5]
+                ey = order[6]
+                path.cubicTo( sx, sy, mx, my, ex, ey )
                 pass
             elif order[0] == ConnectorPainterPathOrder.AddText:
                 x = order[1]
