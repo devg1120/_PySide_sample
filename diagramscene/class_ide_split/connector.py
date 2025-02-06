@@ -133,14 +133,16 @@ class Connector(QtWidgets.QGraphicsPathItem):
             pass
         elif Start_suf == ConnectorContactSurface.Right:
             pass
-            line = QtCore.QLineF(
-                                 QtCore.QPointF(sw/2  ,   sh*Start_pos_ratio),
-                                 QtCore.QPointF(sw    ,   sh*Start_pos_ratio))
-            i_points = self.intersectItemPoints(self.myStartItem.myPolygon,line)
-            if  len(i_points) == 0:
-                return
-            #points.append(QtCore.QPointF(sx + i_points[0].x(), sy + i_points[0].y()))
-            points.append((ConnectorPainterPathOrder.MoveTo, (QtCore.QPointF(sx + i_points[0].x(), sy + i_points[0].y()))))
+            #points.append((ConnectorPainterPathOrder.MoveTo,QtCore.QPointF(sx , sy + sh*End_pos_ratio)))
+            points.append((ConnectorPainterPathOrder.MoveTo,QtCore.QPointF(sx+sw/2 , sy + sh*End_pos_ratio)))
+
+            #line = QtCore.QLineF(
+            #                     QtCore.QPointF(sw/2  ,   sh*Start_pos_ratio),
+            #                     QtCore.QPointF(sw    ,   sh*Start_pos_ratio))
+            #i_points = self.intersectItemPoints(self.myStartItem.myPolygon,line)
+            #if  len(i_points) == 0:
+            #    return
+            #points.append((ConnectorPainterPathOrder.MoveTo, (QtCore.QPointF(sx + i_points[0].x(), sy + i_points[0].y()))))
 
         elif Start_suf == ConnectorContactSurface.BottomRight:
             pass
@@ -153,7 +155,7 @@ class Connector(QtWidgets.QGraphicsPathItem):
         elif Start_suf == ConnectorContactSurface.TopLeft:
             pass
 
-        if False:
+        if True:
             # Right Angle  直角
             mx = (ex -(sx + sw))/2
             points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + mx , sy + sh*Start_pos_ratio )))
@@ -191,7 +193,7 @@ class Connector(QtWidgets.QGraphicsPathItem):
 
             poiints.append((ConnectorPainterPathOrder.MoveTo,QtCore.QPointF( sx + sw  + mx + g , ey + eh*End_pos_ratio   )))
 
-        if True:
+        if False:
             # Slant 傾斜
             top = 15
             points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF( sx + sw  + top , sy + sh*Start_pos_ratio )))
@@ -215,16 +217,16 @@ class Connector(QtWidgets.QGraphicsPathItem):
             pass
         elif End_suf == ConnectorContactSurface.Left:
             pass
-            #points.append(QtCore.QPointF(ex , ey + eh*End_pos_ratio))
+            #points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF(ex , ey + eh*End_pos_ratio)))
+            points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF(ex+ew/2 , ey + eh*End_pos_ratio)))
             
-            line = QtCore.QLineF(
-                                 QtCore.QPointF(0     ,   eh*End_pos_ratio),
-                                 QtCore.QPointF(ew/2  ,   eh*End_pos_ratio))
-            i_points = self.intersectItemPoints(self.myEndItem.myPolygon,line)
-            if  len(i_points) == 0:
-                return
-            #points.append(QtCore.QPointF(ex + i_points[0].x(), ey + i_points[0].y()))
-            points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF(ex + i_points[0].x(), ey + i_points[0].y())))
+            #line = QtCore.QLineF(
+            #                     QtCore.QPointF(0     ,   eh*End_pos_ratio),
+            #                     QtCore.QPointF(ew/2  ,   eh*End_pos_ratio))
+            #i_points = self.intersectItemPoints(self.myEndItem.myPolygon,line)
+            #if  len(i_points) == 0:
+            #    return
+            #points.append((ConnectorPainterPathOrder.LineTo,QtCore.QPointF(ex + i_points[0].x(), ey + i_points[0].y())))
 
         elif End_suf == ConnectorContactSurface.TopLeft:
             pass
@@ -266,7 +268,7 @@ class Connector(QtWidgets.QGraphicsPathItem):
                 pass
 
         #path.closeSubpath()
-
+        
         intersectPoints = self.intersectConnectors(path)
         if len(intersectPoints) > 0:
             #print(intersectPoints)
@@ -274,6 +276,7 @@ class Connector(QtWidgets.QGraphicsPathItem):
             path.moveTo( intersectPoints[0][0].x()+s/2, intersectPoints[0][0].y())
             path.arcTo(  intersectPoints[0][0].x()-s/2, intersectPoints[0][0].y()-s/2, s,s,0, 360)
 
+       
         self.setPath(path)
 
     def updatePosition_OLD(self):
