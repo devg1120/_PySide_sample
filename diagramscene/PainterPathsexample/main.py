@@ -117,7 +117,6 @@ class Window(QWidget):
         testpath2.lineTo(10,40)
         testpath2.lineTo(60,45)
         testpath2.lineTo(30,25)
-        
         testpath2.moveTo(30,55)
         testpath2.lineTo(10,70)
         testpath2.lineTo(60,75)
@@ -127,10 +126,31 @@ class Window(QWidget):
         testpath31.moveTo(90,25)
         testpath31.lineTo(10,60)
         testpath31.lineTo(90,75)
-        
         testpath32 = QPainterPath()
         testpath32.moveTo(50,20)
         testpath32.lineTo(50,90)
+
+        testpath41 = QPainterPath()
+        testpath41.moveTo(30,25)
+        testpath41.lineTo(10,60)
+        testpath41.lineTo(90,75)
+        testpath42 = QPainterPath()
+        testpath42.moveTo(50,20)
+        testpath42.lineTo(50,90)
+
+        testpath51 = QPainterPath()
+        testpath51.moveTo(80.0, 50.0)
+        testpath51.arcTo(20.0, 30.0, 60.0, 40.0, 0.0, 360.0)
+        testpath52 = QPainterPath()
+        testpath52.moveTo(20,80)
+        testpath52.lineTo(80,20)
+
+        testpath61 = QPainterPath()
+        testpath61.moveTo(80.0, 50.0)
+        testpath61.arcTo(20.0, 30.0, 60.0, 40.0, 0.0, 360.0)
+        testpath62 = QPainterPath()
+        testpath62.moveTo(20,80)
+        testpath62.lineTo(80,20)
 
         self.renderAreas.append(RenderArea([rectPath]     ,"rectPath"))
         self.renderAreas.append(RenderArea([roundRectPath],"roundRectPath"))
@@ -144,6 +164,9 @@ class Window(QWidget):
         self.renderAreas.append(RenderArea([testpath1]    ,"testpath1")) 
         self.renderAreas.append(RenderArea([testpath2]    ,"testpath2")) 
         self.renderAreas.append(RenderArea([testpath31,testpath32] ,"interect")) 
+        self.renderAreas.append(RenderArea([testpath41,testpath42] ,"interect")) 
+        self.renderAreas.append(RenderArea([testpath51,testpath52] ,"interect")) 
+        self.renderAreas.append(RenderArea([testpath61,testpath62] ,"interect slice")) 
 
         
         #self.button1 = QPushButton('Select Font')
