@@ -5,7 +5,7 @@ from PySide6.QtWidgets import (QApplication, QWidget, QLabel,
                                QComboBox, QSpinBox, QGridLayout, QHBoxLayout,QVBoxLayout, QPushButton, QFontDialog,
                                QSizePolicy)
 from PySide6.QtGui import QPainterPath, QLinearGradient, QColor,QPen, QFont, QPalette, QPainter
-from PySide6.QtCore import Qt, QSize, QPoint, QPointF, QLineF, QRectF
+from PySide6.QtCore import Qt, QSize, QSizeF, QPoint, QPointF, QLineF, QRectF
 import math, sys
 
 
@@ -34,80 +34,6 @@ class Window(QWidget):
         #self.font.setLetterSpacing(QFont.AbsoluteSpacing, 0)
 
         self.renderAreas = []     
-
-        rectPath = QPainterPath()
-        rectPath.moveTo(20.0, 30.0)
-        rectPath.lineTo(80.0, 30.0)
-        rectPath.lineTo(80.0, 70.0)
-        rectPath.lineTo(20.0, 70.0)
-        #rectPath.addText(20,20,self.font, "rectPath")
-        rectPath.closeSubpath()
-
-        roundRectPath = QPainterPath()
-        roundRectPath.moveTo(80.0, 35.0)
-        roundRectPath.arcTo(70.0, 35.0, 10.0, 10.0, 0.0, 90.0)
-        roundRectPath.lineTo(25.0, 30.0)
-        roundRectPath.arcTo(20.0, 30.0, 10.0, 10.0, 90.0, 90.0)
-        roundRectPath.lineTo(20.0, 65.0)
-        roundRectPath.arcTo(20.0, 60.0, 10.0, 10.0, 180.0, 90.0)
-        roundRectPath.lineTo(75.0, 70.0)
-        roundRectPath.arcTo(70.0, 60.0, 10.0, 10.0, 270.0, 90.0)
-        #roundRectPath.addText(20,20, self.font, "roundRectPath")
-        roundRectPath.closeSubpath()
-
-        ellipsePath = QPainterPath()
-        ellipsePath.moveTo(80.0, 50.0)
-        ellipsePath.arcTo(20.0, 30.0, 60.0, 40.0, 0.0, 360.0)
-        
-        piePath = QPainterPath()
-        piePath.moveTo(50.0, 50.0)
-        piePath.arcTo(20.0, 30.0, 60.0, 40.0, 60.0, 240.0)
-        piePath.closeSubpath()
-
-        polygonPath = QPainterPath()
-        polygonPath.moveTo(10.0, 80.0)
-        polygonPath.lineTo(20.0, 10.0)
-        polygonPath.lineTo(80.0, 30.0)
-        polygonPath.lineTo(90.0, 70.0)
-        polygonPath.closeSubpath()
-
-        groupPath = QPainterPath()
-        groupPath.moveTo(60.0, 40.0)
-        groupPath.arcTo(20.0, 20.0, 40.0, 40.0, 0.0, 360.0)
-        groupPath.moveTo(40.0, 40.0)
-        groupPath.lineTo(40.0, 80.0)
-        groupPath.lineTo(80.0, 80.0)
-        groupPath.lineTo(80.0, 40.0)
-        groupPath.closeSubpath()
-
-        textPath = QPainterPath()
-        timesFont = QFont("Times", 50)
-        timesFont.setStyleStrategy(QFont.ForceOutline)
-        textPath.addText(10, 70, timesFont, self.tr("Qt"))
-
-        bezierPath = QPainterPath()
-        bezierPath.moveTo(20, 30)
-        bezierPath.cubicTo(80, 0, 50, 50, 80, 80)
-
-        starPath = QPainterPath()
-        starPath.moveTo(90, 50)
-        for i in range(5):
-            starPath.lineTo(50 + 40*math.cos(0.8*i*math.pi),
-                            50 + 40*math.sin(0.8*i*math.pi))
-
-        starPath.closeSubpath()
-
-        self.renderAreas.append(RenderArea([rectPath]     ,"rectPath"))
-        self.renderAreas.append(RenderArea([roundRectPath],"roundRectPath"))
-        self.renderAreas.append(RenderArea([ellipsePath]  ,"ellipsePath"))
-        self.renderAreas.append(RenderArea([piePath]      ,"piePath"))
-        self.renderAreas.append(RenderArea([polygonPath]  ,"polygonPath"))
-        self.renderAreas.append(RenderArea([groupPath]    ,"groupPath"))
-        self.renderAreas.append(RenderArea([textPath]     ,"textPath"))
-        self.renderAreas.append(RenderArea([bezierPath]   ,"bezierPath"))
-        self.renderAreas.append(RenderArea([starPath]     ,"starPath")) 
-
-
         # http://blog.livedoor.jp/take_z_ultima/archives/52550736.html
         testpath1 = QPainterPath()
         testpath1.moveTo(30,25)
@@ -203,14 +129,22 @@ class Window(QWidget):
         points = self.intersectPathPoints(testpath1, testpath2)
         self.renderAreas.append(RenderArea([testpath1,testpath2] ,"intesect angle",result = "ipn:" + str(len(points)) )) 
 
+        #-------------------------------------------------
+        self.renderAreas.append(RenderArea([] ,"BLANK")) 
+        #-------------------------------------------------
         #############################################################
         #            x
         #          
         # y          +
         #
+        #-------------------------------------------------
+        r = QRectF(20.0, 30.0, 60.0, 40.0)
+        #r = QRectF(20.0, 30.0, 40.0, 40.0)
+        cr = QRectF(r.center()-QPointF(2,2)  , QSizeF(4,4))
+
         testpath1 = QPainterPath()
-        testpath1.arcMoveTo(20.0, 30.0, 60.0, 40.0, 0.0)
-        testpath1.arcTo(20.0, 30.0, 60.0, 40.0, 0.0, 360.0)
+        testpath1.arcMoveTo(r, 0.0)
+        testpath1.arcTo(r, 0.0, 360.0)
         testpath2 = QPainterPath()
         testpath2.moveTo(40,80)
         testpath2.lineTo(40,10)
@@ -219,64 +153,235 @@ class Window(QWidget):
         print("intersects:",len(points))
         print("intersects 0:",points[0])
         print("intersects 1:",points[1])
-        center = QPointF(47,50)
+        center = r.center()
         base   = QPointF(100, 50)
-        offset = QLineF(center,base) 
-        angle1 = offset.angleTo(QLineF(center,points[0])) 
-        angle2 = offset.angleTo(QLineF(center,points[1]))  
+        offset = QLineF(r.center(),base) 
+        #angle1 = offset.angleTo(QLineF(r.center(),points[0])) 
+        #angle2 = offset.angleTo(QLineF(r.center(),points[1]))  
+        points[0].setX(points[0].x() +3)
+        points[1].setX(points[1].x() +3)
+        angle1 = QLineF(center,points[0]).angle() 
+        angle2 = QLineF(center,points[1]).angle() 
+
+        print("angle:", angle1, angle2)
+
+        testpath1 = QPainterPath()
+        testpath1.arcMoveTo(r, angle1 )
+        testpath1.arcTo(r, angle1, angle2 - angle1 )
+
+        testpath3 = QPainterPath()   # center point
+        testpath3.arcMoveTo(cr, 0.0)
+        testpath3.arcTo(cr, 0.0, 360.0)
+
+        self.renderAreas.append(RenderArea([testpath1,testpath2, testpath3] ,"intesect angle cut",result = "ipn:" + str(len(points)) )) 
+
+        #-------------------------------------------------
+        r = QRectF(20.0, 30.0, 60.0, 40.0)
+        cr = QRectF(r.center()-QPointF(2,2)  , QSizeF(4,4))
+
+        testpath1 = QPainterPath()
+        testpath1.arcMoveTo(r, 0.0)
+        testpath1.arcTo(r, 0.0, 360.0)
+        testpath2 = QPainterPath()
+        testpath2.moveTo(40,80)
+        testpath2.lineTo(40,10)
+
+        points = self.intersectPathPoints(testpath1, testpath2)
+        print("intersects:",len(points))
+        print("intersects 0:",points[0])
+        print("intersects 1:",points[1])
+        #center = r.center()
+        base   = QPointF(100, 50)
+        offset = QLineF(r.center(),base) 
+        angle1 = offset.angleTo(QLineF(r.center(),points[0])) 
+        angle2 = offset.angleTo(QLineF(r.center(),points[1]))  
         #angle1 = QLineF(center,points[0]).angle() 
         #angle2 = QLineF(center,points[1]).angle() 
 
         print("angle:", angle1, angle2)
 
         testpath1 = QPainterPath()
-        testpath1.arcMoveTo(20.0, 30.0, 60.0, 40.0, angle1 )
-        testpath1.arcTo(20.0, 30.0, 60.0, 40.0, angle1, angle2 - angle1 )
+        testpath1.arcMoveTo(r, angle1 )
+        testpath1.arcTo(r, angle1, angle2 - angle1 )
 
         testpath3 = QPainterPath()   # center point
-        testpath3.arcMoveTo(49, 49, 2, 2, 0.0)
-        testpath3.arcTo(49, 49, 2, 2, 0.0, 360.0)
+        testpath3.arcMoveTo(cr, 0.0)
+        testpath3.arcTo(cr, 0.0, 360.0)
 
         self.renderAreas.append(RenderArea([testpath1,testpath2, testpath3] ,"intesect angle cut",result = "ipn:" + str(len(points)) )) 
+
+        #-------------------------------------------------
+
+        #-------------------------------------------------
+        title = "正方形"
+        print(title, "----------------------------")
+        r = QRectF(20.0, 30.0, 50.0, 50.0)
+        cr = QRectF(r.center()-QPointF(2,2)  , QSizeF(4,4))
+
         testpath1 = QPainterPath()
-        testpath1.arcMoveTo(20.0, 30.0, 60.0, 40.0, 0.0)
-        testpath1.arcTo(20.0, 30.0, 60.0, 40.0, 0.0, 360.0)
+        testpath1.arcMoveTo(r, 0.0)
+        testpath1.arcTo(r, 0.0, 360.0)
         testpath2 = QPainterPath()
-        testpath2.moveTo(40,80)
+        testpath2.moveTo(40,90)
         testpath2.lineTo(80,30)
 
         points = self.intersectPathPoints(testpath1, testpath2)
         print("intersects:",len(points))
         print("intersects 0:",points[0])
         print("intersects 1:",points[1])
-        center = QPointF(47, 50)
+        center = r.center()
         base   = QPointF(100, 50)
         offset = QLineF(center,base) 
         #angle1 = offset.angleTo(QLineF(center,points[0])) 
         #angle2 = offset.angleTo(QLineF(center,points[1]))  
+        #points[0].setX(points[0].x() -6)
+        #points[1].setX(points[1].x() )
         angle1 = QLineF(center,points[0]).angle()
         angle2 = QLineF(center,points[1]).angle()
 
         print("angle:", angle1, angle2)
 
         testpath1 = QPainterPath()
-        testpath1.arcMoveTo(20.0, 30.0, 60.0, 40.0, angle1 )
-        testpath1.arcTo(20.0, 30.0, 60.0, 40.0, angle1, angle2 - angle1)
+        testpath1.arcMoveTo(r, angle1 )
+        testpath1.arcTo(r, angle1, angle2 - angle1)
 
         testpath3 = QPainterPath()   # center point
-        testpath3.arcMoveTo(49, 49, 2, 2, 0.0)
-        testpath3.arcTo(49, 49, 2, 2, 0.0, 360.0)
+        testpath3.arcMoveTo(cr, 0.0)
+        testpath3.arcTo(cr, 0.0, 360.0)
 
-        self.renderAreas.append(RenderArea([testpath1,testpath2, testpath3] ,"intesect angle cut",result = "ipn:" + str(len(points)) )) 
+        self.renderAreas.append(RenderArea([testpath1,testpath2, testpath3] ,title,result = "ipn:" + str(len(points)) )) 
 
+        #-------------------------------------------------
+        title = "長方形"
+        print(title, "----------------------------")
+        r = QRectF(20.0, 30.0, 60.0, 40.0)
+        cr = QRectF(r.center()-QPointF(2,2)  , QSizeF(4,4))
+        L1 = QPointF(20,80)
+        L2 = QPointF(80,30)
 
         testpath1 = QPainterPath()
-        r = QRectF(20.0, 30.0, 60.0, 40.0 )
-        #testpath1.arcMoveTo(20.0, 30.0, 60.0, 40.0, 0.0)
-        #testpath1.arcTo(20.0, 30.0, 60.0, 40.0, 0.0, 360.0)
         testpath1.arcMoveTo(r, 0.0)
         testpath1.arcTo(r, 0.0, 360.0)
 
+        testpath2 = QPainterPath()
+        testpath2.moveTo(L1)
+        testpath2.lineTo(L2)
+
+        points = self.intersectPathPoints(testpath1, testpath2)
+        center = r.center()
+        p0 = QRectF(points[0]-QPointF(2,2)  , QSizeF(4,4))
+        p1 = QRectF(points[1]-QPointF(2,2)  , QSizeF(4,4))
+
+        line_angle = QLineF(L1,L2).angle() 
+        print("**",QLineF(L1, L2).angleTo(QLineF(center,points[0])))
+        print("**",QLineF(L1, L2).angleTo(QLineF(center,points[1])))
+        angle1 = QLineF(center,points[0]).angle() + 12
+        angle2 = QLineF(center,points[1]).angle() + 12
+
+        testpath1 = QPainterPath()
+        testpath1.arcMoveTo(r, angle1 )
+        testpath1.arcTo(r, angle1, angle2 - angle1)
+
+        testpath3 = QPainterPath()   # center point
+        testpath3.arcMoveTo(cr, 0.0)
+        testpath3.arcTo(cr, 0.0, 360.0)
+        testpath3.arcMoveTo(p0, 0.0)
+        testpath3.arcTo(p0, 0.0, 360.0)
+        testpath3.arcMoveTo(p1, 0.0)
+        testpath3.arcTo(p1, 0.0, 360.0)
+
+        self.renderAreas.append(RenderArea([testpath1,testpath2, testpath3] ,title,result = "ipn:" + str(len(points)) )) 
+
+        #-------------------------------------------------
+        title = "長方形2"
+        print(title, "----------------------------")
+        r = QRectF(20.0, 30.0, 60.0, 40.0)
+        cr = QRectF(r.center()-QPointF(2,2)  , QSizeF(4,4))
+        L1 = QPointF(30,80)
+        L2 = QPointF(60,20)
+
+        testpath1 = QPainterPath()
+        testpath1.arcMoveTo(r, 0.0)
+        testpath1.arcTo(r, 0.0, 360.0)
+        testpath2 = QPainterPath()
+        testpath2.moveTo(L1)
+        testpath2.lineTo(L2)
+
+        points = self.intersectPathPoints(testpath1, testpath2)
+        center = r.center()
+        p0 = QRectF(points[0]-QPointF(2,2)  , QSizeF(4,4))
+        p1 = QRectF(points[1]-QPointF(2,2)  , QSizeF(4,4))
+
+        line_angle = QLineF(L1, L2).angle() 
+        print("**",QLineF(L1, L2).angleTo(QLineF(center,points[0])))
+        print("**",QLineF(L1, L2).angleTo(QLineF(center,points[1])))
+        angle1 = QLineF(center,points[0]).angle() + 4
+        angle2 = QLineF(center,points[1]).angle() + 8
+
+        testpath1 = QPainterPath()
+        testpath1.arcMoveTo(r, angle1 )
+        testpath1.arcTo(r, angle1, angle2 - angle1)
+        testpath3 = QPainterPath()   # center point
+        testpath3.arcMoveTo(cr, 0.0)
+        testpath3.arcTo(cr, 0.0, 360.0)
+        testpath3.arcMoveTo(p0, 0.0)
+        testpath3.arcTo(p0, 0.0, 360.0)
+        testpath3.arcMoveTo(p1, 0.0)
+        testpath3.arcTo(p1, 0.0, 360.0)
+
+        self.renderAreas.append(RenderArea([testpath1,testpath2, testpath3] ,title,result = "ipn:" + str(len(points)) )) 
+
+
+        #-------------------------------------------------
+        title = "長方形3"
+        print(title, "----------------------------")
+        r = QRectF(20.0, 30.0, 60.0, 40.0)
+        cr = QRectF(r.center()-QPointF(2,2)  , QSizeF(4,4))
+        L1 = QPointF(30,20)
+        L2 = QPointF(60,80)
+
+        testpath1 = QPainterPath()
+        testpath1.arcMoveTo(r, 0.0)
+        testpath1.arcTo(r, 0.0, 360.0)
+        testpath2 = QPainterPath()
+        testpath2.moveTo(L1)
+        testpath2.lineTo(L2)
+
+        points = self.intersectPathPoints(testpath1, testpath2)
+        center = r.center()
+        p0 = QRectF(points[0]-QPointF(2,2)  , QSizeF(4,4))
+        p1 = QRectF(points[1]-QPointF(2,2)  , QSizeF(4,4))
+
+        line_angle = QLineF(L1, L2).angle() 
+        print("**",QLineF(L1, L2).angleTo(QLineF(center,points[0])))
+        print("**",QLineF(L1, L2).angleTo(QLineF(center,points[1])))
+        angle1 = QLineF(center,points[0]).angle() + 4
+        angle2 = QLineF(center,points[1]).angle() + 8
+
+        testpath1 = QPainterPath()
+        testpath1.arcMoveTo(r, angle1 )
+        testpath1.arcTo(r, angle1, angle2 - angle1)
+        testpath3 = QPainterPath()   # center point
+        testpath3.arcMoveTo(cr, 0.0)
+        testpath3.arcTo(cr, 0.0, 360.0)
+        testpath3.arcMoveTo(p0, 0.0)
+        testpath3.arcTo(p0, 0.0, 360.0)
+        testpath3.arcMoveTo(p1, 0.0)
+        testpath3.arcTo(p1, 0.0, 360.0)
+
+        self.renderAreas.append(RenderArea([testpath1,testpath2, testpath3] ,title,result = "ipn:" + str(len(points)) )) 
+
+
+        #-------------------------------------------------
+        title = "長方形4"
+        print(title, "----------------------------")
+
+        r = QRectF(20.0, 30.0, 60.0, 40.0 )
+        cr = QRectF(r.center()-QPointF(2,2)  , QSizeF(4,4))
+
+        testpath1 = QPainterPath()
+        testpath1.arcMoveTo(r, 0.0)
+        testpath1.arcTo(r, 0.0, 360.0)
         testpath2 = QPainterPath()
         testpath2.moveTo(20,80)
         #testpath2.lineTo(80,30)
@@ -286,14 +391,11 @@ class Window(QWidget):
         print("intersects:",len(points))
         print("intersects 0:",points[0])
         print("intersects 1:",points[1])
-        center = QPointF(50, 50)
         center = r.center()
-        base   = QPointF(100, 50)
-        offset = QLineF(center,base) 
         angle1 = QLineF(center,points[0]).angle() 
+        angle1 = angle1 * r.width()/r.height()
         angle2 = QLineF(center,points[1]).angle()
-
-
+        angle2 = angle2 * (1-r.width()/r.height())
 
         print("angle:", angle1, angle2)
 
@@ -304,10 +406,15 @@ class Window(QWidget):
         testpath1.arcTo(r, angle1, angle2 - angle1 )
 
         testpath3 = QPainterPath()   # center point
-        testpath3.arcMoveTo(49, 49, 2, 2, 0.0)
-        testpath3.arcTo(49, 49, 2, 2, 0.0, 360.0)
+        testpath3.arcMoveTo(cr, 0.0)
+        testpath3.arcTo(cr, 0.0, 360.0)
 
-        self.renderAreas.append(RenderArea([testpath1,testpath2, testpath3] ,"intesect angle cut2",result = "ipn:" + str(len(points)) )) 
+        self.renderAreas.append(RenderArea([testpath1,testpath2, testpath3] ,title,result = "ipn:" + str(len(points)) )) 
+
+
+
+
+
         ##################################################################################
 
         #self.button1 = QPushButton('Select Font')
@@ -514,7 +621,7 @@ class RenderArea(QWidget):
 
     def setFillRule(self, rule):
 
-        self.paths[0].setFillRule(rule)
+        #self.paths[0].setFillRule(rule)
         for path in self.paths:
            path.setFillRule(rule)
         self.update()
@@ -560,7 +667,7 @@ class RenderArea(QWidget):
         gradient.setColorAt(1.0, self.fillColor2)
         
         painter.setBrush(gradient)
-        painter.drawPath(self.paths[0])
+        #painter.drawPath(self.paths[0])
         for path in self.paths:
            painter.drawPath(path)
 
