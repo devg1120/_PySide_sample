@@ -131,15 +131,9 @@ class Window(QWidget):
 
         #-------------------------------------------------
         self.renderAreas.append(RenderArea([] ,"BLANK")) 
-        #-------------------------------------------------
-        #############################################################
-        #            x
-        #          
-        # y          +
-        #
+
         #-------------------------------------------------
         r = QRectF(20.0, 30.0, 60.0, 40.0)
-        #r = QRectF(20.0, 30.0, 40.0, 40.0)
         cr = QRectF(r.center()-QPointF(2,2)  , QSizeF(4,4))
 
         testpath1 = QPainterPath()
@@ -151,54 +145,33 @@ class Window(QWidget):
 
         points = self.intersectPathPoints(testpath1, testpath2)
         print("intersects:",len(points))
-        print("intersects 0:",points[0])
-        print("intersects 1:",points[1])
+        #print("intersects 0:",points[0])
+        #print("intersects 1:",points[1])
         center = r.center()
-        base   = QPointF(100, 50)
-        offset = QLineF(r.center(),base) 
+        #base   = QPointF(100, 50)
+        #offset = QLineF(r.center(),base) 
         #angle1 = offset.angleTo(QLineF(r.center(),points[0])) 
         #angle2 = offset.angleTo(QLineF(r.center(),points[1]))  
-        points[0].setX(points[0].x() +3)
-        points[1].setX(points[1].x() +3)
-        angle1 = QLineF(center,points[0]).angle() 
-        angle2 = QLineF(center,points[1]).angle() 
-
-        print("angle:", angle1, angle2)
-
-        testpath1 = QPainterPath()
-        testpath1.arcMoveTo(r, angle1 )
-        testpath1.arcTo(r, angle1, angle2 - angle1 )
-
-        testpath3 = QPainterPath()   # center point
-        testpath3.arcMoveTo(cr, 0.0)
-        testpath3.arcTo(cr, 0.0, 360.0)
-
-        self.renderAreas.append(RenderArea([testpath1,testpath2, testpath3] ,"intesect angle cut",result = "ipn:" + str(len(points)) )) 
-
-        #-------------------------------------------------
-        r = QRectF(20.0, 30.0, 60.0, 40.0)
-        cr = QRectF(r.center()-QPointF(2,2)  , QSizeF(4,4))
-
-        testpath1 = QPainterPath()
-        testpath1.arcMoveTo(r, 0.0)
-        testpath1.arcTo(r, 0.0, 360.0)
-        testpath2 = QPainterPath()
-        testpath2.moveTo(40,80)
-        testpath2.lineTo(40,10)
-
-        points = self.intersectPathPoints(testpath1, testpath2)
-        print("intersects:",len(points))
-        print("intersects 0:",points[0])
-        print("intersects 1:",points[1])
-        #center = r.center()
-        base   = QPointF(100, 50)
-        offset = QLineF(r.center(),base) 
-        angle1 = offset.angleTo(QLineF(r.center(),points[0])) 
-        angle2 = offset.angleTo(QLineF(r.center(),points[1]))  
         #angle1 = QLineF(center,points[0]).angle() 
         #angle2 = QLineF(center,points[1]).angle() 
 
-        print("angle:", angle1, angle2)
+        #print("angle:", angle1, angle2)
+        #*******************************************************
+        angle1 = QLineF(center,points[0]).angle()
+        angle2 = QLineF(center,points[1]).angle()
+        #print("angle:", angle1, angle2)
+        radius1 = r.width()/2
+        radius2 = r.height()/2
+        angleRad1 = math.radians(angle1)
+        angle1 = math.degrees(math.atan2(radius1 * math.sin(angleRad1),
+                                             radius2 * math.cos(angleRad1)))
+
+        angleRad2 = math.radians(angle2)
+        angle2 =  math.degrees(math.atan2(radius1 * math.sin(angleRad2),
+                                             radius2 * math.cos(angleRad2)))
+        angle2 = angle2 +360
+        #print("angle:", angle1, angle2)
+        #*******************************************************
 
         testpath1 = QPainterPath()
         testpath1.arcMoveTo(r, angle1 )
@@ -252,7 +225,7 @@ class Window(QWidget):
         self.renderAreas.append(RenderArea([testpath1,testpath2, testpath3] ,title,result = "ipn:" + str(len(points)) )) 
 
         #-------------------------------------------------
-        title = "長方形"
+        title = "長方形1"
         print(title, "----------------------------")
         r = QRectF(20.0, 30.0, 60.0, 40.0)
         cr = QRectF(r.center()-QPointF(2,2)  , QSizeF(4,4))
@@ -291,6 +264,66 @@ class Window(QWidget):
         testpath3.arcTo(p1, 0.0, 360.0)
 
         self.renderAreas.append(RenderArea([testpath1,testpath2, testpath3] ,title,result = "ipn:" + str(len(points)) )) 
+
+
+        #-------------------------------------------------
+        title = "長方形1 ##"
+
+        # https://stackoverflow.com/questions/40010114/how-are-angles-on-qpainterpatharcto-interpreted
+        # https://www.mathopenref.com/coordparamellipse.html
+
+        print(title, "----------------------------")
+        r = QRectF(20.0, 30.0, 60.0, 40.0)
+        cr = QRectF(r.center()-QPointF(2,2)  , QSizeF(4,4))
+        L1 = QPointF(20,80)
+        L2 = QPointF(80,30)
+
+        testpath1 = QPainterPath()
+        testpath1.arcMoveTo(r, 0.0)
+        testpath1.arcTo(r, 0.0, 360.0)
+
+        testpath2 = QPainterPath()
+        testpath2.moveTo(L1)
+        testpath2.lineTo(L2)
+
+        points = self.intersectPathPoints(testpath1, testpath2)
+        center = r.center()
+        p0 = QRectF(points[0]-QPointF(2,2)  , QSizeF(4,4))
+        p1 = QRectF(points[1]-QPointF(2,2)  , QSizeF(4,4))
+
+        #*******************************************************
+        angle1 = QLineF(center,points[0]).angle() 
+        angle2 = QLineF(center,points[1]).angle() 
+        print("angle:", angle1, angle2)
+        radius1 = r.width()/2
+        radius2 = r.height()/2
+        angleRad1 = math.radians(angle1)
+        angle1 = math.degrees(math.atan2(radius1 * math.sin(angleRad1),
+                                             radius2 * math.cos(angleRad1)))
+
+        angleRad2 = math.radians(angle2)
+        angle2 =  math.degrees(math.atan2(radius1 * math.sin(angleRad2),
+                                             radius2 * math.cos(angleRad2)))
+        angle2 = angle2 +360
+        print("angle:", angle1, angle2)
+        #*******************************************************
+        testpath1 = QPainterPath()
+        testpath1.arcMoveTo(r, angle1 )
+        testpath1.arcTo(r, angle1, angle2 - angle1)
+
+        testpath3 = QPainterPath()   # center point
+        testpath3.arcMoveTo(cr, 0.0)
+        testpath3.arcTo(cr, 0.0, 360.0)
+        testpath3.arcMoveTo(p0, 0.0)
+        testpath3.arcTo(p0, 0.0, 360.0)
+        testpath3.arcMoveTo(p1, 0.0)
+        testpath3.arcTo(p1, 0.0, 360.0)
+
+        self.renderAreas.append(RenderArea([testpath1,testpath2, testpath3] ,title,result = "ipn:" + str(len(points)) )) 
+
+
+
+
 
         #-------------------------------------------------
         title = "長方形2"
@@ -333,6 +366,61 @@ class Window(QWidget):
 
 
         #-------------------------------------------------
+        title = "長方形2 ##"
+        print(title, "----------------------------")
+        r = QRectF(20.0, 30.0, 60.0, 40.0)
+        cr = QRectF(r.center()-QPointF(2,2)  , QSizeF(4,4))
+        L1 = QPointF(30,80)
+        L2 = QPointF(60,20)
+
+        testpath1 = QPainterPath()
+        testpath1.arcMoveTo(r, 0.0)
+        testpath1.arcTo(r, 0.0, 360.0)
+        testpath2 = QPainterPath()
+        testpath2.moveTo(L1)
+        testpath2.lineTo(L2)
+
+        points = self.intersectPathPoints(testpath1, testpath2)
+        center = r.center()
+        p0 = QRectF(points[0]-QPointF(2,2)  , QSizeF(4,4))
+        p1 = QRectF(points[1]-QPointF(2,2)  , QSizeF(4,4))
+
+        #angle1 = QLineF(center,points[0]).angle() + 4
+        #angle2 = QLineF(center,points[1]).angle() + 8
+
+
+        #*******************************************************
+        angle1 = QLineF(center,points[0]).angle()
+        angle2 = QLineF(center,points[1]).angle()
+
+        radius1 = r.width()/2
+        radius2 = r.height()/2
+        angleRad1 = math.radians(angle1)
+        angle1 = math.degrees(math.atan2(radius1 * math.sin(angleRad1),
+                                             radius2 * math.cos(angleRad1)))
+
+        angleRad2 = math.radians(angle2)
+        angle2 = math.degrees(math.atan2(radius1 * math.sin(angleRad2),
+                                             radius2 * math.cos(angleRad2)))
+
+        angle2 = angle2 +360
+        #*******************************************************
+
+
+        testpath1 = QPainterPath()
+        testpath1.arcMoveTo(r, angle1 )
+        testpath1.arcTo(r, angle1, angle2 - angle1)
+        testpath3 = QPainterPath()   # center point
+        testpath3.arcMoveTo(cr, 0.0)
+        testpath3.arcTo(cr, 0.0, 360.0)
+        testpath3.arcMoveTo(p0, 0.0)
+        testpath3.arcTo(p0, 0.0, 360.0)
+        testpath3.arcMoveTo(p1, 0.0)
+        testpath3.arcTo(p1, 0.0, 360.0)
+
+        self.renderAreas.append(RenderArea([testpath1,testpath2, testpath3] ,title,result = "ipn:" + str(len(points)) )) 
+
+        #-------------------------------------------------
         title = "長方形3"
         print(title, "----------------------------")
         r = QRectF(20.0, 30.0, 60.0, 40.0)
@@ -355,8 +443,61 @@ class Window(QWidget):
         line_angle = QLineF(L1, L2).angle() 
         print("**",QLineF(L1, L2).angleTo(QLineF(center,points[0])))
         print("**",QLineF(L1, L2).angleTo(QLineF(center,points[1])))
-        angle1 = QLineF(center,points[0]).angle() + 4
-        angle2 = QLineF(center,points[1]).angle() + 8
+        angle1 = QLineF(center,points[0]).angle()  -10
+        angle2 = QLineF(center,points[1]).angle()  -2
+
+        testpath1 = QPainterPath()
+        testpath1.arcMoveTo(r, angle1 )
+        testpath1.arcTo(r, angle1, angle2 - angle1)
+        testpath3 = QPainterPath()   # center point
+        testpath3.arcMoveTo(cr, 0.0)
+        testpath3.arcTo(cr, 0.0, 360.0)
+        testpath3.arcMoveTo(p0, 0.0)
+        testpath3.arcTo(p0, 0.0, 360.0)
+        testpath3.arcMoveTo(p1, 0.0)
+        testpath3.arcTo(p1, 0.0, 360.0)
+
+        self.renderAreas.append(RenderArea([testpath1,testpath2, testpath3] ,title,result = "ipn:" + str(len(points)) )) 
+
+
+        #-------------------------------------------------
+        title = "長方形3 ##"
+        print(title, "----------------------------")
+        r = QRectF(20.0, 30.0, 60.0, 40.0)
+        cr = QRectF(r.center()-QPointF(2,2)  , QSizeF(4,4))
+        L1 = QPointF(30,20)
+        L2 = QPointF(60,80)
+
+        testpath1 = QPainterPath()
+        testpath1.arcMoveTo(r, 0.0)
+        testpath1.arcTo(r, 0.0, 360.0)
+        testpath2 = QPainterPath()
+        testpath2.moveTo(L1)
+        testpath2.lineTo(L2)
+
+        points = self.intersectPathPoints(testpath1, testpath2)
+        center = r.center()
+        p0 = QRectF(points[0]-QPointF(2,2)  , QSizeF(4,4))
+        p1 = QRectF(points[1]-QPointF(2,2)  , QSizeF(4,4))
+
+        #angle1 = QLineF(center,points[0]).angle()  -10
+        #angle2 = QLineF(center,points[1]).angle()  -2
+        #*******************************************************
+        angle1 = QLineF(center,points[0]).angle()
+        angle2 = QLineF(center,points[1]).angle()
+
+        radius1 = r.width()/2
+        radius2 = r.height()/2
+        angleRad1 = math.radians(angle1)
+        angle1 = math.degrees(math.atan2(radius1 * math.sin(angleRad1),
+                                             radius2 * math.cos(angleRad1)))
+
+        angleRad2 = math.radians(angle2)
+        angle2 = math.degrees(math.atan2(radius1 * math.sin(angleRad2),
+                                             radius2 * math.cos(angleRad2)))
+
+        angle2 = angle2 +360
+        #*******************************************************
 
         testpath1 = QPainterPath()
         testpath1.arcMoveTo(r, angle1 )
@@ -384,13 +525,9 @@ class Window(QWidget):
         testpath1.arcTo(r, 0.0, 360.0)
         testpath2 = QPainterPath()
         testpath2.moveTo(20,80)
-        #testpath2.lineTo(80,30)
         testpath2.lineTo(90,30)
 
         points = self.intersectPathPoints(testpath1, testpath2)
-        print("intersects:",len(points))
-        print("intersects 0:",points[0])
-        print("intersects 1:",points[1])
         center = r.center()
         angle1 = QLineF(center,points[0]).angle() 
         angle1 = angle1 * r.width()/r.height()
@@ -400,8 +537,50 @@ class Window(QWidget):
         print("angle:", angle1, angle2)
 
         testpath1 = QPainterPath()
-        #testpath1.arcMoveTo(20.0, 30.0, 60.0, 40.0, angle1 )
-        #testpath1.arcTo(20.0, 30.0, 60.0, 40.0, angle1, angle2 - angle1 )
+        testpath1.arcMoveTo(r, angle1 )
+        testpath1.arcTo(r, angle1, angle2 - angle1 )
+
+        testpath3 = QPainterPath()   # center point
+        testpath3.arcMoveTo(cr, 0.0)
+        testpath3.arcTo(cr, 0.0, 360.0)
+
+        self.renderAreas.append(RenderArea([testpath1,testpath2, testpath3] ,title,result = "ipn:" + str(len(points)) )) 
+
+        #-------------------------------------------------
+        title = "長方形4 ##"
+        print(title, "----------------------------")
+
+        r = QRectF(20.0, 30.0, 60.0, 40.0 )
+        cr = QRectF(r.center()-QPointF(2,2)  , QSizeF(4,4))
+
+        testpath1 = QPainterPath()
+        testpath1.arcMoveTo(r, 0.0)
+        testpath1.arcTo(r, 0.0, 360.0)
+        testpath2 = QPainterPath()
+        testpath2.moveTo(20,80)
+        #testpath2.lineTo(80,30)
+        testpath2.lineTo(90,30)
+
+        points = self.intersectPathPoints(testpath1, testpath2)
+        center = r.center()
+        #*******************************************************
+        angle1 = QLineF(center,points[0]).angle()
+        angle2 = QLineF(center,points[1]).angle()
+
+        radius1 = r.width()/2
+        radius2 = r.height()/2
+        angleRad1 = math.radians(angle1)
+        angle1 = math.degrees(math.atan2(radius1 * math.sin(angleRad1),
+                                             radius2 * math.cos(angleRad1)))
+
+        angleRad2 = math.radians(angle2)
+        angle2 = math.degrees(math.atan2(radius1 * math.sin(angleRad2),
+                                             radius2 * math.cos(angleRad2)))
+
+        angle2 = angle2 +360
+        #*******************************************************
+
+        testpath1 = QPainterPath()
         testpath1.arcMoveTo(r, angle1 )
         testpath1.arcTo(r, angle1, angle2 - angle1 )
 
