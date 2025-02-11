@@ -250,6 +250,25 @@ class Window(QWidget):
             ]
         poly = QPolygon(points)
         self.renderAreas.append(RenderArea([poly] ,"draw polygon", result = "" ) )
+        self.renderAreas.append(RenderArea([poly] ,"draw polygon line", drawtype = "drawPolyline", result = "" ) )
+
+        funcstr1 = """
+pen = painter.pen()
+pen.setColor(QColor("red"))
+pen.setWidth(1.5)
+pen.setStyle(Qt.SolidLine)
+pen.setCapStyle(Qt.RoundCap)
+pen.setJoinStyle(Qt.RoundJoin)
+painter.setPen(pen)
+rectangle = QRectF(10.0, 40.0, 80.0, 100.0)
+startAngle = 30 * 16
+spanAngle = 120 * 16
+painter.drawPie(rectangle, startAngle, spanAngle)
+"""
+        
+        renderArea = RenderArea([] ,"Painter draw ", drawtype = "drawPainter", func=funcstr1, result = "OK" ) 
+        self.renderAreas.append(renderArea)
+        
 
         ##################################################################################
 
@@ -421,7 +440,7 @@ class Window(QWidget):
 
 class RenderArea(QWidget):
 
-    def __init__(self, elements, name, parent=None, rotate=None, clippath=None, result=None):
+    def __init__(self, elements, name, parent=None, drawtype=None,func=None, rotate=None, clippath=None, result=None):
         super().__init__(parent)
 
         #self.paths = paths
@@ -435,7 +454,9 @@ class RenderArea(QWidget):
         self.name = name
         #self.setFont(QFont("Courier",9))
         self.setFont(QFont("Helvetica",6))
+        self.drawtype = drawtype
         self.result = result
+        self.func = func
         self.rotate = rotate
         self.clippath = clippath
 
@@ -474,6 +495,14 @@ class RenderArea(QWidget):
         self.rotationAngle = degrees
         self.update()
         
+    def getPainter(self):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        painter.scale(self.width()/100.0, self.height()/100.0)
+        painter.translate(50.0, 50.0)
+        painter.translate(-50.0, -50.0)
+        return painter
+
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
@@ -490,25 +519,36 @@ class RenderArea(QWidget):
         painter.translate(50.0, 50.0)
         painter.translate(-50.0, -50.0)
 
-        pen = painter.pen()
-        pen.setColor(self.penColor)
-        pen.setWidth(self.penWidth)
-        pen.setStyle(Qt.SolidLine)
-        pen.setCapStyle(Qt.RoundCap)
-        pen.setJoinStyle(Qt.RoundJoin)
-        
-        painter.setPen(pen)
-        gradient = QLinearGradient(0, 0, 0, 100)
-        gradient.setColorAt(0.0, self.fillColor1)
-        gradient.setColorAt(1.0, self.fillColor2)
-        painter.setBrush(gradient)
+        if self.drawtype == "drawPainter":
+            exec(self.func )
+            #ok = "--OK--"
+            #code = "print('Hello, World!',ok)"
+            #exec(code)
+        else:
+           pen = painter.pen()
+           pen.setColor(self.penColor)
+           pen.setWidth(self.penWidth)
+           pen.setStyle(Qt.SolidLine)
+           pen.setCapStyle(Qt.RoundCap)
+           pen.setJoinStyle(Qt.RoundJoin)
+           
+           painter.setPen(pen)
+           gradient = QLinearGradient(0, 0, 0, 100)
+           gradient.setColorAt(0.0, self.fillColor1)
+           gradient.setColorAt(1.0, self.fillColor2)
+           painter.setBrush(gradient)
 
-        for element in self.elements:
-            if type(element) == QPolygon:
-                print("drawPolygon")
-                painter.drawPolygon(element)
-            elif type(element) == QPainterPath:
-                painter.drawPath(element)
+           for element in self.elements:
+               if type(element) == QPolygon:
+                   if self.drawtype == "drawPolyline":
+                      painter.drawPolyline(element)
+                   elif self.drawtype == "drawPolyline":
+                      painter.drawPolygon(element)
+                   else:
+                      painter.drawPolygon(element)
+
+               elif type(element) == QPainterPath:
+                   painter.drawPath(element)
 
         pen = painter.pen()
         pen.setColor(QColor("blue"))
