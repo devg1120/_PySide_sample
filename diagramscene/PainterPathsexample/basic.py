@@ -4,7 +4,7 @@
 from PySide6.QtWidgets import (QApplication, QWidget, QLabel,
                                QComboBox, QSpinBox, QGridLayout, QHBoxLayout,QVBoxLayout, QPushButton, QFontDialog,
                                QSizePolicy)
-from PySide6.QtGui import QPainterPath, QLinearGradient, QColor,QPen, QFont, QPalette, QPainter
+from PySide6.QtGui import QPainterPath, QLinearGradient, QColor,QPen, QFont, QPalette, QPainter, QPolygon
 from PySide6.QtCore import Qt, QSize, QSizeF, QPoint, QPointF, QLineF, QRectF
 import math, sys
 
@@ -240,6 +240,17 @@ class Window(QWidget):
         testpath3.arcMoveTo(cr, 0.0)
         testpath3.arcTo(cr, 0.0, 360.0)
         self.renderAreas.append(RenderArea([path, testpath3] ,"quadTo", result = "" ) )
+
+
+        points = [
+            QPoint(10,40),
+            QPoint(10,80),
+            QPoint(80,40),
+            QPoint(80,80)
+            ]
+        poly = QPolygon(points)
+        self.renderAreas.append(RenderArea([poly] ,"draw polygon", result = "" ) )
+
         ##################################################################################
 
         #self.button1 = QPushButton('Select Font')
@@ -339,32 +350,22 @@ class Window(QWidget):
         self.setWindowTitle("Painter Paths")
        
     def intersectPathPoints(self, path1, path2):
-        #polygon = self.mapToScene(_polygon)
-        #c_path = path1
         intersection_points = []
         if not path1.intersects(path2):
             print("  not  intersects")
             return intersection_points
         c_polygon = path1.toFillPolygon()
         polygon   = path2.toFillPolygon()
-        #print(c_polygon)
-        #print(polygon)
         for i in range(0, c_polygon.size() - 2):
-            #print("polygon i:",i )
             c_polyline = QLineF(c_polygon[i], c_polygon[i + 1])
             for j in range(0, polygon.size() - 2):
-                #print("  polygon j:",j )
                 line = QLineF(polygon[j], polygon[j + 1])
                 _type , _point =  c_polyline.intersects(line)
                 if _type  == QLineF.BoundedIntersection:
-                    #print("    intersectConnectorPoints:",i,j )
-                    #print("BoundedIntersection")
                     intersection_points.append(_point)
                 elif _type  == QLineF.UnboundedIntersection:
-                    #print("UnboundedIntersection")
                     pass
                 elif _type  == QLineF.NoIntersection:
-                    #print("NoIntersection")
                     pass
         return intersection_points
 
@@ -420,10 +421,11 @@ class Window(QWidget):
 
 class RenderArea(QWidget):
 
-    def __init__(self, paths, name, parent=None, rotate=None, clippath=None, result=None):
+    def __init__(self, elements, name, parent=None, rotate=None, clippath=None, result=None):
         super().__init__(parent)
 
-        self.paths = paths
+        #self.paths = paths
+        self.elements = elements
         self.fillColor1 = QColor()
         self.fillColor2 = QColor()
         self.penWidth = 1
@@ -447,9 +449,9 @@ class RenderArea(QWidget):
 
     def setFillRule(self, rule):
 
-        self.paths[0].setFillRule(rule)
-        for path in self.paths:
-           path.setFillRule(rule)
+        for element in self.elements:
+           if type(element) == QPainterPath:
+             element.setFillRule(rule)
         self.update()
 
     def setFillGradient(self, color1, color2):
@@ -499,11 +501,14 @@ class RenderArea(QWidget):
         gradient = QLinearGradient(0, 0, 0, 100)
         gradient.setColorAt(0.0, self.fillColor1)
         gradient.setColorAt(1.0, self.fillColor2)
-        
         painter.setBrush(gradient)
-        painter.drawPath(self.paths[0])
-        for path in self.paths:
-           painter.drawPath(path)
+
+        for element in self.elements:
+            if type(element) == QPolygon:
+                print("drawPolygon")
+                painter.drawPolygon(element)
+            elif type(element) == QPainterPath:
+                painter.drawPath(element)
 
         pen = painter.pen()
         pen.setColor(QColor("blue"))
