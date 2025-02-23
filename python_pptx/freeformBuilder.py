@@ -11,16 +11,144 @@ import subprocess
 
 prs = pptx.Presentation()
 
+# https://python-pptx.readthedocs.io/en/latest/api/shapes.html
+"""
+SlideShapes objects
 
+class pptx.shapes.shapetree.SlideShapes[source]
+
+add_chart
+   (
+     chart_type: XL_CHART_TYPE,
+     x: Length, 
+     y: Length, 
+     cx: Length, 
+     cy: Length, 
+     chart_data: ChartData
+   ) 
+   → Chart
+    
+add_connector
+   (
+     connector_type: MSO_CONNECTOR_TYPE, 
+                       CURVE
+                          Curved connector.
+                       ELBOW
+                          Elbow connector.
+                       STRAIGHT
+                          Straight line connector.
+                       MIXED
+                          Return value only; indicates a combination of other states.
+
+     begin_x: Length, 
+     begin_y: Length, 
+     end_x: Length, 
+     end_y: Length
+   )
+   → Connector
+    
+add_group_shape
+   (
+    shapes: Iterable[pptx.shapes.base.BaseShape] = ()
+   ) 
+   → pptx.shapes.group.GroupShape
+    
+add_movie
+   (
+    movie_file: str | IO[bytes], 
+    left: Length,
+    top: Length, 
+    width: Length, 
+    height: Length, 
+    poster_frame_image: str | IO[bytes] | None = None, 
+    mime_type: str = 'video/unknown'
+   )
+   → GraphicFrame[source]
+    
+add_ole_object
+   (
+    object_file: str | IO[bytes], 
+    prog_id: str, 
+    left: Length,
+    top: Length,
+    width: Length | None = None, 
+    height: Length | None = None, 
+    icon_file: str | IO[bytes] | None = None,
+    icon_width: Length | None = None,
+    icon_height: Length | None = None
+   ) 
+   → GraphicFrame
+    
+add_picture
+   (
+    image_file: str | IO[bytes], 
+    left: Length,
+    top: Length,
+    width: Length | None = None,
+    height: Length | None = None
+   ) 
+   → Picture
+    
+add_shape
+   (
+    autoshape_type_id: MSO_SHAPE, 
+    left: Length,
+    top: Length,
+    width: Length,
+    height: Length
+   ) 
+   → Shape
+    
+add_table
+  (
+    rows: int, 
+    cols: int,
+    left: Length, 
+    top: Length, 
+    width: Length,
+    height: Length
+  ) 
+  → GraphicFrame[source]
+    
+add_textbox
+  (
+    left: Length, 
+    top: Length, 
+    width: Length, 
+    height: Length
+  ) 
+  → Shape
+    
+build_freeform
+  (
+    start_x: float = 0, 
+    start_y: float = 0, 
+    scale: tuple[float, float] | float = 1.0
+  ) 
+  → FreeformBuilder
+
+
+"""
 #########################################################################################################
 # https://qiita.com/Mt_SQ/items/9025d26b5709ca0648c6
 
 
 slide = prs.slides.add_slide(prs.slide_layouts[6]) 
 
-"""
+
+# 見出し
+text_width = Inches(4)
+text_height = Inches(0.5)
+txBox = slide.shapes.add_textbox(
+    left=Inches(0.5),
+    top=Inches(0.3),
+    width=text_width, height=text_height
+)
+txFrame = txBox.text_frame
+txFrame.text = "見出し"
+
 shapes = slide.shapes
-shape = shapes.add_textbox(Cm(1), Cm(1), Cm(5), Cm(5))
+shape = shapes.add_textbox(Cm(1), Cm(2), Cm(5), Cm(8))
 text_frame = shape.text_frame
 
 pg = text_frame.paragraphs[0]
@@ -32,20 +160,39 @@ run.font.color.rgb = RGBColor(0, 0, 255)
 # https://python-pptx.readthedocs.io/en/latest/api/shapes.html#slideshapes-objects
 # https://python-pptx.readthedocs.io/en/latest/api/enum/MsoAutoShapeType.html#msoautoshapetype
 
-a = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE,       width=Cm(3), height=Cm(3) ,left=Cm(3), top=Cm(3))
+a = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE,       width=Cm(3), height=Cm(3) ,left=Cm(2), top=Cm(4))
 l = slide.shapes.add_shape(MSO_SHAPE.LINE_INVERSE,       width=Cm(5), height=Cm(5) ,left=Cm(5), top=Cm(5))
 
 # https://github.com/scanny/python-pptx/blob/master/docs/dev/analysis/shp-freeform.rst
 
 freeform_builder = slide.shapes.build_freeform(Cm(10), Cm(10))
-freeform_builder.add_line_segments((
-     (Cm(10),   Cm(10)),
-     (Cm(9),   Cm(10)),
-     (Cm(9.5), Cm(9)),
- ),
+
+"""
+freeform_builder.add_line_segments(
+ vertices = [
+   (Cm(10),   Cm(10)),
+   (Cm(9),   Cm(10)),
+   (Cm(9.5), Cm(9)),
+ ],
  close = False
- )
-freeform_shape = freeform_builder.convert_to_shape()
+)
+freeform_builder.convert_to_shape()
+"""
+
+#f = freeform_builder.add_line_segments([(Cm(10),   Cm(10))], close = False)
+f = freeform_builder.add_line_segments([],close = False)
+f.add_line_segments([(Cm(10),   Cm(10))], close = False)
+f.add_line_segments([(Cm(9),   Cm(10))], close = False)
+#f.add_line_segments([(Cm(9.5),   Cm(9))])
+f.add_line_segments([(Cm(9.5),   Cm(9))])
+f.convert_to_shape()
+
+
+#freeform_shape = freeform_builder.convert_to_shape()
+#freeform_builder.move_to(100,-50)
+#freeform_shape = freeform_builder.convert_to_shape()
+#freeform_builder.move_to(100,-50)
+
 """
 """
 a = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE,       width=Cm(2), height=Cm(2) ,left=Cm(3), top=Cm(12))
@@ -66,7 +213,7 @@ line1.line.fill.solid()
 line1.line.fill.fore_color.rgb = RGBColor(128, 255, 0)
 line1.begin_connect(a, 3)
 line1.end_connect(b, 1)
-"""
+
 
 c = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE,       width=Cm(2), height=Cm(2) ,left=Cm(14), top=Cm(12))
 d = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE,       width=Cm(2), height=Cm(2) ,left=Cm(22), top=Cm(10))
@@ -85,10 +232,10 @@ line1.line.fill.solid()
 line1.line.fill.fore_color.rgb = RGBColor(128, 255, 0)
 line1.begin_connect(c, 3)
 line1.end_connect(d, 2)
-line1.element.spPr.prstGeom.rewrite_guides([('adj1', -635)])
+#line1.element.spPr.prstGeom.rewrite_guides([('adj1', -635)])
 
 e = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE,       width=Cm(2), height=Cm(2) ,left=Cm(14), top=Cm(15))
-f = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE,       width=Cm(2), height=Cm(2) ,left=Cm(22), top=Cm(17))
+f = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE,       width=Cm(2), height=Cm(2) ,left=Cm(22), top=Cm(7))
 
 pg = e.text_frame.paragraphs[0]
 pg.text ="E"
@@ -98,11 +245,13 @@ pg = f.text_frame.paragraphs[0]
 pg.text ="F"
 pg.alignment = PP_ALIGN.CENTER
 
+adjs = e.adjustments
+print("e", len(adjs))
 
 line1 = slide.shapes.add_connector(MSO_CONNECTOR.ELBOW, Cm(2), Cm(2), Cm(2), Cm(2) )
 #line1.element.flipH = True
 #line1.element.flipV = True
-line1.element.rot = 16200000
+#line1.element.rot = 16200000
 line1.line.fill.background()
 line1.line.fill.solid()
 line1.line.fill.fore_color.rgb = RGBColor(128, 255, 0)
@@ -129,14 +278,57 @@ print(type(line1.element.nvCxnSpPr.cNvCxnSpPr.endCxn)) #<class 'pptx.oxml.shapes
 
 print(type(line1.element.nvCxnSpPr.nvPr))
 print(type(line1.element.spPr))
-line1.element.spPr.prstGeom.rewrite_guides([('adj1', 0)])
+#line1.element.spPr.prstGeom.rewrite_guides([('adj1', 0)])
 
 
 #line1.element.spPr.prstGeom.rewrite_guides([("adj1", 50000), ("adj2", 50000)])
 #line1.element.spPr.prstGeom.rewrite_guides([('adj2', 3500)])
 
 ##########################################################################################################
+
+# https://python-pptx.readthedocs.io/en/latest/user/autoshapes.html#adjusting-an-autoshape
+
+
+slide = prs.slides.add_slide(prs.slide_layouts[6])
+
+shapes = slide.shapes
+left = top = width = height = Inches(1.0)
+shape = shapes.add_shape(
+    MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, height
+)
+
+from pptx.enum.dml import MSO_THEME_COLOR
+
+fill = shape.fill
+fill.solid()
+#fill.fore_color.theme_color = MSO_THEME_COLOR.ACCENT_1
+#fill.fore_color.brightness = -0.25
+fill.fore_color.rgb = RGBColor(25, 125, 255)
+line = shape.line
+line.color.rgb = RGBColor(255, 0, 0)
+line.color.brightness = 0.5  # 50% lighter
+line.width = Pt(2.5)
+
+callout_sp = shapes.add_shape(
+    MSO_SHAPE.LINE_CALLOUT_2_ACCENT_BAR, Cm(5), Cm(5), Cm(2), Cm(2)
+)
+
+# get the callout line coming out of the right place
+adjs = callout_sp.adjustments
+print("callout_sp", len(adjs))
+adjs[0] = 0.5   # vert pos of junction in margin line, 0 is top
+adjs[1] = 0.0   # horz pos of margin ln wrt shape width, 0 is left side
+adjs[2] = 0.5   # vert pos of elbow wrt margin line, 0 is top
+adjs[3] = -0.1  # horz pos of elbow wrt shape width, 0 is margin line
+adjs[4] = 3.0   # vert pos of line end wrt shape height, 0 is top
+a5 = adjs[3] - (adjs[4] - adjs[0]) * height/width
+adjs[5] = a5    # horz pos of elbow wrt shape width, 0 is margin line
+
+# rotate 45 degrees counter-clockwise
+callout_sp.rotation = -45.0
+
 ##########################################################################################################
+
 ##########################################################################################################
 
 

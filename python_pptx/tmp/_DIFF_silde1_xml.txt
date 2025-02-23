@@ -1,0 +1,261 @@
+<p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2							      |	<p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2								
+  <p:cSld>								  <p:cSld>								
+    <p:spTree>								    <p:spTree>								
+      <p:nvGrpSpPr>								      <p:nvGrpSpPr>								
+        <p:cNvPr id="1" name=""/>								        <p:cNvPr id="1" name=""/>								
+        <p:cNvGrpSpPr/>								        <p:cNvGrpSpPr/>								
+        <p:nvPr/>								        <p:nvPr/>								
+      </p:nvGrpSpPr>								      </p:nvGrpSpPr>								
+      <p:grpSpPr>							      |	      <p:grpSpPr/>								
+        <a:xfrm>							      <
+          <a:off x="0" y="0"/>							      <
+          <a:ext cx="0" cy="0"/>							      <
+          <a:chOff x="0" y="0"/>							      <
+          <a:chExt cx="0" cy="0"/>							      <
+        </a:xfrm>							      <
+      </p:grpSpPr>							      <
+      <p:sp>								      <p:sp>								
+        <p:nvSpPr>								        <p:nvSpPr>								
+          <p:cNvPr id="2" name="Rectangle 1"/>								          <p:cNvPr id="2" name="Rectangle 1"/>								
+          <p:cNvSpPr/>								          <p:cNvSpPr/>								
+          <p:nvPr/>								          <p:nvPr/>								
+        </p:nvSpPr>								        </p:nvSpPr>								
+        <p:spPr>								        <p:spPr>								
+          <a:xfrm>								          <a:xfrm>								
+            <a:off x="1440000" y="720000"/>								            <a:off x="1440000" y="720000"/>								
+            <a:ext cx="720000" cy="720000"/>								            <a:ext cx="720000" cy="720000"/>								
+          </a:xfrm>								          </a:xfrm>								
+          <a:prstGeom prst="rect">								          <a:prstGeom prst="rect">								
+            <a:avLst/>								            <a:avLst/>								
+          </a:prstGeom>								          </a:prstGeom>								
+        </p:spPr>								        </p:spPr>								
+        <p:style>								        <p:style>								
+          <a:lnRef idx="1">								          <a:lnRef idx="1">								
+            <a:schemeClr val="accent1"/>								            <a:schemeClr val="accent1"/>								
+          </a:lnRef>								          </a:lnRef>								
+          <a:fillRef idx="3">								          <a:fillRef idx="3">								
+            <a:schemeClr val="accent1"/>								            <a:schemeClr val="accent1"/>								
+          </a:fillRef>								          </a:fillRef>								
+          <a:effectRef idx="2">								          <a:effectRef idx="2">								
+            <a:schemeClr val="accent1"/>								            <a:schemeClr val="accent1"/>								
+          </a:effectRef>								          </a:effectRef>								
+          <a:fontRef idx="minor">								          <a:fontRef idx="minor">								
+            <a:schemeClr val="lt1"/>								            <a:schemeClr val="lt1"/>								
+          </a:fontRef>								          </a:fontRef>								
+        </p:style>								        </p:style>								
+        <p:txBody>								        <p:txBody>								
+          <a:bodyPr rtlCol="0" anchor="ctr"/>								          <a:bodyPr rtlCol="0" anchor="ctr"/>								
+          <a:lstStyle/>								          <a:lstStyle/>								
+          <a:p>								          <a:p>								
+            <a:pPr algn="ctr"/>								            <a:pPr algn="ctr"/>								
+            <a:r>								            <a:r>								
+              <a:t>C</a:t>								              <a:t>C</a:t>								
+            </a:r>								            </a:r>								
+          </a:p>								          </a:p>								
+        </p:txBody>								        </p:txBody>								
+      </p:sp>								      </p:sp>								
+      <p:sp>								      <p:sp>								
+        <p:nvSpPr>								        <p:nvSpPr>								
+          <p:cNvPr id="3" name="Rectangle 2"/>								          <p:cNvPr id="3" name="Rectangle 2"/>								
+          <p:cNvSpPr/>								          <p:cNvSpPr/>								
+          <p:nvPr/>								          <p:nvPr/>								
+        </p:nvSpPr>								        </p:nvSpPr>								
+        <p:spPr>								        <p:spPr>								
+          <a:xfrm>								          <a:xfrm>								
+            <a:off x="4320000" y="1800000"/>								            <a:off x="4320000" y="1800000"/>								
+            <a:ext cx="720000" cy="720000"/>								            <a:ext cx="720000" cy="720000"/>								
+          </a:xfrm>								          </a:xfrm>								
+          <a:prstGeom prst="rect">								          <a:prstGeom prst="rect">								
+            <a:avLst/>								            <a:avLst/>								
+          </a:prstGeom>								          </a:prstGeom>								
+        </p:spPr>								        </p:spPr>								
+        <p:style>								        <p:style>								
+          <a:lnRef idx="1">								          <a:lnRef idx="1">								
+            <a:schemeClr val="accent1"/>								            <a:schemeClr val="accent1"/>								
+          </a:lnRef>								          </a:lnRef>								
+          <a:fillRef idx="3">								          <a:fillRef idx="3">								
+            <a:schemeClr val="accent1"/>								            <a:schemeClr val="accent1"/>								
+          </a:fillRef>								          </a:fillRef>								
+          <a:effectRef idx="2">								          <a:effectRef idx="2">								
+            <a:schemeClr val="accent1"/>								            <a:schemeClr val="accent1"/>								
+          </a:effectRef>								          </a:effectRef>								
+          <a:fontRef idx="minor">								          <a:fontRef idx="minor">								
+            <a:schemeClr val="lt1"/>								            <a:schemeClr val="lt1"/>								
+          </a:fontRef>								          </a:fontRef>								
+        </p:style>								        </p:style>								
+        <p:txBody>								        <p:txBody>								
+          <a:bodyPr rtlCol="0" anchor="ctr"/>								          <a:bodyPr rtlCol="0" anchor="ctr"/>								
+          <a:lstStyle/>								          <a:lstStyle/>								
+          <a:p>								          <a:p>								
+            <a:pPr algn="ctr"/>								            <a:pPr algn="ctr"/>								
+            <a:r>								            <a:r>								
+              <a:t>D</a:t>								              <a:t>D</a:t>								
+            </a:r>								            </a:r>								
+          </a:p>								          </a:p>								
+        </p:txBody>								        </p:txBody>								
+      </p:sp>								      </p:sp>								
+      <p:cxnSp>								      <p:cxnSp>								
+        <p:nvCxnSpPr>								        <p:nvCxnSpPr>								
+          <p:cNvPr id="4" name="Connector 3"/>								          <p:cNvPr id="4" name="Connector 3"/>								
+          <p:cNvCxnSpPr>								          <p:cNvCxnSpPr>								
+            <a:stCxn id="2" idx="3"/>								            <a:stCxn id="2" idx="3"/>								
+            <a:endCxn id="3" idx="2"/>								            <a:endCxn id="3" idx="2"/>								
+          </p:cNvCxnSpPr>								          </p:cNvCxnSpPr>								
+          <p:nvPr/>								          <p:nvPr/>								
+        </p:nvCxnSpPr>								        </p:nvCxnSpPr>								
+        <p:spPr>								        <p:spPr>								
+          <a:xfrm>								          <a:xfrm>								
+            <a:off x="2160000" y="1080000"/>								            <a:off x="2160000" y="1080000"/>								
+            <a:ext cx="2520000" cy="1440000"/>								            <a:ext cx="2520000" cy="1440000"/>								
+          </a:xfrm>								          </a:xfrm>								
+          <a:prstGeom prst="bentConnector3">								          <a:prstGeom prst="bentConnector3">								
+            <a:avLst/>								            <a:avLst/>								
+          </a:prstGeom>								          </a:prstGeom>								
+          <a:ln>								          <a:ln>								
+            <a:solidFill>								            <a:solidFill>								
+              <a:srgbClr val="80FF00"/>								              <a:srgbClr val="80FF00"/>								
+            </a:solidFill>								            </a:solidFill>								
+          </a:ln>								          </a:ln>								
+        </p:spPr>								        </p:spPr>								
+        <p:style>								        <p:style>								
+          <a:lnRef idx="2">								          <a:lnRef idx="2">								
+            <a:schemeClr val="accent1"/>								            <a:schemeClr val="accent1"/>								
+          </a:lnRef>								          </a:lnRef>								
+          <a:fillRef idx="0">								          <a:fillRef idx="0">								
+            <a:schemeClr val="accent1"/>								            <a:schemeClr val="accent1"/>								
+          </a:fillRef>								          </a:fillRef>								
+          <a:effectRef idx="1">								          <a:effectRef idx="1">								
+            <a:schemeClr val="accent1"/>								            <a:schemeClr val="accent1"/>								
+          </a:effectRef>								          </a:effectRef>								
+          <a:fontRef idx="minor">								          <a:fontRef idx="minor">								
+            <a:schemeClr val="tx1"/>								            <a:schemeClr val="tx1"/>								
+          </a:fontRef>								          </a:fontRef>								
+        </p:style>								        </p:style>								
+      </p:cxnSp>								      </p:cxnSp>								
+      <p:sp>								      <p:sp>								
+        <p:nvSpPr>								        <p:nvSpPr>								
+          <p:cNvPr id="5" name="Rectangle 4"/>								          <p:cNvPr id="5" name="Rectangle 4"/>								
+          <p:cNvSpPr/>								          <p:cNvSpPr/>								
+          <p:nvPr/>								          <p:nvPr/>								
+        </p:nvSpPr>								        </p:nvSpPr>								
+        <p:spPr>								        <p:spPr>								
+          <a:xfrm>								          <a:xfrm>								
+            <a:off x="1440000" y="3501853"/>							      |	            <a:off x="1440000" y="3600000"/>								
+            <a:ext cx="720000" cy="720000"/>								            <a:ext cx="720000" cy="720000"/>								
+          </a:xfrm>								          </a:xfrm>								
+          <a:prstGeom prst="rect">								          <a:prstGeom prst="rect">								
+            <a:avLst/>								            <a:avLst/>								
+          </a:prstGeom>								          </a:prstGeom>								
+        </p:spPr>								        </p:spPr>								
+        <p:style>								        <p:style>								
+          <a:lnRef idx="1">								          <a:lnRef idx="1">								
+            <a:schemeClr val="accent1"/>								            <a:schemeClr val="accent1"/>								
+          </a:lnRef>								          </a:lnRef>								
+          <a:fillRef idx="3">								          <a:fillRef idx="3">								
+            <a:schemeClr val="accent1"/>								            <a:schemeClr val="accent1"/>								
+          </a:fillRef>								          </a:fillRef>								
+          <a:effectRef idx="2">								          <a:effectRef idx="2">								
+            <a:schemeClr val="accent1"/>								            <a:schemeClr val="accent1"/>								
+          </a:effectRef>								          </a:effectRef>								
+          <a:fontRef idx="minor">								          <a:fontRef idx="minor">								
+            <a:schemeClr val="lt1"/>								            <a:schemeClr val="lt1"/>								
+          </a:fontRef>								          </a:fontRef>								
+        </p:style>								        </p:style>								
+        <p:txBody>								        <p:txBody>								
+          <a:bodyPr rtlCol="0" anchor="ctr"/>								          <a:bodyPr rtlCol="0" anchor="ctr"/>								
+          <a:lstStyle/>								          <a:lstStyle/>								
+          <a:p>								          <a:p>								
+            <a:pPr algn="ctr"/>								            <a:pPr algn="ctr"/>								
+            <a:r>								            <a:r>								
+              <a:rPr dirty="0"/>							      <
+              <a:t>E</a:t>								              <a:t>E</a:t>								
+            </a:r>								            </a:r>								
+          </a:p>								          </a:p>								
+        </p:txBody>								        </p:txBody>								
+      </p:sp>								      </p:sp>								
+      <p:sp>								      <p:sp>								
+        <p:nvSpPr>								        <p:nvSpPr>								
+          <p:cNvPr id="6" name="Rectangle 5"/>								          <p:cNvPr id="6" name="Rectangle 5"/>								
+          <p:cNvSpPr/>								          <p:cNvSpPr/>								
+          <p:nvPr/>								          <p:nvPr/>								
+        </p:nvSpPr>								        </p:nvSpPr>								
+        <p:spPr>								        <p:spPr>								
+          <a:xfrm>								          <a:xfrm>								
+            <a:off x="4320000" y="4680000"/>								            <a:off x="4320000" y="4680000"/>								
+            <a:ext cx="720000" cy="720000"/>								            <a:ext cx="720000" cy="720000"/>								
+          </a:xfrm>								          </a:xfrm>								
+          <a:prstGeom prst="rect">								          <a:prstGeom prst="rect">								
+            <a:avLst/>								            <a:avLst/>								
+          </a:prstGeom>								          </a:prstGeom>								
+        </p:spPr>								        </p:spPr>								
+        <p:style>								        <p:style>								
+          <a:lnRef idx="1">								          <a:lnRef idx="1">								
+            <a:schemeClr val="accent1"/>								            <a:schemeClr val="accent1"/>								
+          </a:lnRef>								          </a:lnRef>								
+          <a:fillRef idx="3">								          <a:fillRef idx="3">								
+            <a:schemeClr val="accent1"/>								            <a:schemeClr val="accent1"/>								
+          </a:fillRef>								          </a:fillRef>								
+          <a:effectRef idx="2">								          <a:effectRef idx="2">								
+            <a:schemeClr val="accent1"/>								            <a:schemeClr val="accent1"/>								
+          </a:effectRef>								          </a:effectRef>								
+          <a:fontRef idx="minor">								          <a:fontRef idx="minor">								
+            <a:schemeClr val="lt1"/>								            <a:schemeClr val="lt1"/>								
+          </a:fontRef>								          </a:fontRef>								
+        </p:style>								        </p:style>								
+        <p:txBody>								        <p:txBody>								
+          <a:bodyPr rtlCol="0" anchor="ctr"/>								          <a:bodyPr rtlCol="0" anchor="ctr"/>								
+          <a:lstStyle/>								          <a:lstStyle/>								
+          <a:p>								          <a:p>								
+            <a:pPr algn="ctr"/>								            <a:pPr algn="ctr"/>								
+            <a:r>								            <a:r>								
+              <a:t>F</a:t>								              <a:t>F</a:t>								
+            </a:r>								            </a:r>								
+          </a:p>								          </a:p>								
+        </p:txBody>								        </p:txBody>								
+      </p:sp>								      </p:sp>								
+      <p:cxnSp>								      <p:cxnSp>								
+        <p:nvCxnSpPr>								        <p:nvCxnSpPr>								
+          <p:cNvPr id="7" name="Connector 6"/>								          <p:cNvPr id="7" name="Connector 6"/>								
+          <p:cNvCxnSpPr>								          <p:cNvCxnSpPr>								
+            <a:stCxn id="5" idx="0"/>								            <a:stCxn id="5" idx="0"/>								
+            <a:endCxn id="6" idx="0"/>								            <a:endCxn id="6" idx="0"/>								
+          </p:cNvCxnSpPr>								          </p:cNvCxnSpPr>								
+          <p:nvPr/>								          <p:nvPr/>								
+        </p:nvCxnSpPr>								        </p:nvCxnSpPr>								
+        <p:spPr>								        <p:spPr>								
+          <a:xfrm rot="16200000" flipH="1">							      |	          <a:xfrm>								
+            <a:off x="2650926" y="2650926"/>							      |	            <a:off x="1800000" y="3600000"/>								
+            <a:ext cx="1178147" cy="2880000"/>							      |	            <a:ext cx="2880000" cy="1080000"/>								
+          </a:xfrm>								          </a:xfrm>								
+          <a:prstGeom prst="bentConnector3">								          <a:prstGeom prst="bentConnector3">								
+            <a:avLst>							      |	            <a:avLst/>								
+              <a:gd name="adj1" fmla="val -19403"/>							      <
+            </a:avLst>							      <
+          </a:prstGeom>								          </a:prstGeom>								
+          <a:ln>								          <a:ln>								
+            <a:solidFill>								            <a:solidFill>								
+              <a:srgbClr val="80FF00"/>								              <a:srgbClr val="80FF00"/>								
+            </a:solidFill>								            </a:solidFill>								
+          </a:ln>								          </a:ln>								
+        </p:spPr>								        </p:spPr>								
+        <p:style>								        <p:style>								
+          <a:lnRef idx="2">								          <a:lnRef idx="2">								
+            <a:schemeClr val="accent1"/>								            <a:schemeClr val="accent1"/>								
+          </a:lnRef>								          </a:lnRef>								
+          <a:fillRef idx="0">								          <a:fillRef idx="0">								
+            <a:schemeClr val="accent1"/>								            <a:schemeClr val="accent1"/>								
+          </a:fillRef>								          </a:fillRef>								
+          <a:effectRef idx="1">								          <a:effectRef idx="1">								
+            <a:schemeClr val="accent1"/>								            <a:schemeClr val="accent1"/>								
+          </a:effectRef>								          </a:effectRef>								
+          <a:fontRef idx="minor">								          <a:fontRef idx="minor">								
+            <a:schemeClr val="tx1"/>								            <a:schemeClr val="tx1"/>								
+          </a:fontRef>								          </a:fontRef>								
+        </p:style>								        </p:style>								
+      </p:cxnSp>								      </p:cxnSp>								
+    </p:spTree>								    </p:spTree>								
+  </p:cSld>								  </p:cSld>								
+  <p:clrMapOvr>								  <p:clrMapOvr>								
+    <a:masterClrMapping/>								    <a:masterClrMapping/>								
+  </p:clrMapOvr>								  </p:clrMapOvr>								
+</p:sld>								</p:sld>								
